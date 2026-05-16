@@ -132,9 +132,25 @@ app.post('/api/generate-build', async (req, res) => {
 // Serve static files in production
 const distDir = join(__dirname, '..', 'dist');
 if (fs.existsSync(distDir)) {
-  app.use(express.static(distDir));
+  app.use(express.static(distDir, {
+    maxAge: '1y',
+    immutable: true,
+    setHeaders: (res, filePath) => {
+      // index.html should never be cached (so new deploys take effect immediately)
+      if (filePath.endsWith('index.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      }
+    },
+  }));
+  // SPA fallback — only for navigation requests, NOT for asset files
   app.use((req, res, next) => {
-    if (!req.path.startsWith('/api') && !req.path.startsWith('/uploads') && req.method === 'GET') {
+    if (
+      req.method === 'GET' &&
+      !req.path.startsWith('/api') &&
+      !req.path.startsWith('/uploads') &&
+      !req.path.match(/\.\w+$/) // skip anything with a file extension (.js, .css, .map, .svg, etc.)
+    ) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.sendFile(join(distDir, 'index.html'));
     } else {
       next();
