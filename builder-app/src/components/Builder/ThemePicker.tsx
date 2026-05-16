@@ -24,6 +24,23 @@ export default function ThemePicker() {
 
   const applyTheme = (preset: typeof THEME_PRESETS[0]) => {
     updateTheme({ primaryColor: preset.primary, secondaryColor: preset.secondary, accentColor: preset.accent, fontFamily: preset.font });
+    // Auto-apply theme colors to all sections
+    const { config, updateSection } = useBuilderStore.getState();
+    config.sections.forEach((section, i) => {
+      const isHero = section.type === 'HeroSection' || section.type === 'CTASection';
+      const isFooter = section.type === 'FooterSection';
+      const isEven = i % 2 === 0;
+
+      let bg = '#ffffff';
+      let text = '#1f2937';
+
+      if (isHero) { bg = preset.primary; text = '#ffffff'; }
+      else if (isFooter) { bg = '#1f2937'; text = '#ffffff'; }
+      else if (isEven) { bg = '#ffffff'; text = '#1f2937'; }
+      else { bg = preset.primary + '08'; text = '#1f2937'; }
+
+      updateSection(section.id, { backgroundColor: bg, textColor: text });
+    });
   };
 
   return (
