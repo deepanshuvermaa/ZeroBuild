@@ -45,6 +45,11 @@ export default function AdminDashboard() {
     setError(null);
     try {
       const res = await fetch('/api/admin/stats', { credentials: 'include' });
+      if (res.status === 403) {
+        setError('Admin access denied. Please log out and log back in to refresh your session.');
+        setLoading(false);
+        return;
+      }
       if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
       setStats(data);

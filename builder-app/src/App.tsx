@@ -47,17 +47,39 @@ function EditorPage() {
   const { loadFromServer, setProjectId, config, setPreviewMode, previewMode } = useBuilderStore();
   const [isLoading, setIsLoading] = React.useState(true);
   const [editorMode, setEditorMode] = React.useState<'visual' | 'code'>('visual');
+  const [loadError, setLoadError] = React.useState<string | null>(null);
 
   useEffect(() => {
     if (projectId) {
       setIsLoading(true);
+      setLoadError(null);
       loadFromServer(projectId)
         .then(() => { setProjectId(projectId); setIsLoading(false); })
-        .catch(() => navigate('/dashboard'));
+        .catch(() => {
+          setLoadError('Project not found. It may have been deleted or the server was restarted.');
+          setIsLoading(false);
+        });
     }
   }, [projectId]);
 
   if (isLoading) return <LoadingScreen />;
+
+  if (loadError) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center px-4">
+        <div className="text-center max-w-md">
+          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+            <span className="text-2xl">🔍</span>
+          </div>
+          <h2 className="text-xl font-semibold text-white mb-2">Project Not Found</h2>
+          <p className="text-white/50 text-sm mb-6">{loadError}</p>
+          <button onClick={() => navigate('/dashboard')} className="px-6 py-2.5 rounded-lg bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors">
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex flex-col bg-[#050505]">
