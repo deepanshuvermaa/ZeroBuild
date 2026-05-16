@@ -155,7 +155,7 @@ export default function HeroLanding() {
 
           {/* Guest Prompt Box */}
           <div className="animate-blur-fade-up" style={{ animationDelay: '600ms' }}>
-            <div className="flex items-center gap-2 bg-white/[0.06] border border-white/[0.12] rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 backdrop-blur-sm">
+            <div className="flex items-center gap-2 bg-white/[0.06] border border-white/[0.12] rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 backdrop-blur-sm focus-within:border-white/20 transition-colors">
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 flex-shrink-0" />
               <input
                 type="text"
@@ -163,7 +163,7 @@ export default function HeroLanding() {
                 onChange={e => setPrompt(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleGuestGenerate()}
                 placeholder="A dry fruit shop in Delhi..."
-                className="flex-1 bg-transparent text-white placeholder-white/30 text-sm focus:outline-none min-w-0"
+                className="flex-1 bg-transparent text-white placeholder-white/30 text-sm focus:outline-none focus:ring-0 min-w-0"
               />
               <button
                 onClick={handleGuestGenerate}
