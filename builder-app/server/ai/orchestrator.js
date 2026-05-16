@@ -78,16 +78,18 @@ RULES:
     json: true,
   });
 
-  // Step 3: Generate each section in parallel with explicit schema
-  const sectionPromises = intent.sections.map(async (sectionType) => {
-    const schema = SECTION_INTERFACES[sectionType];
-    if (!schema) {
-      console.warn(`[AI] Unknown section type: ${sectionType}`);
-      return null;
-    }
+  // Step 3: Generate sections in batches of 3 to avoid rate limit bursts
+  const BATCH_SIZE = 3;
+  const sections = [];
 
-    const props = await aiComplete({
-      systemPrompt: `${SYSTEM_ROLE}
+  for (let i = 0; i < intent.sections.length; i += BATCH_SIZE) {
+    const batch = intent.sections.slice(i, i + BATCH_SIZE);
+    const batchPromises = batch.map(async (sectionType) => {
+      const schema = SECTION_INTERFACES[sectionType];
+      if (!schema) { console.warn(`[AI] Unknown section type: ${sectionType}`); return null; }
+
+      const props = await aiComplete({
+        systemPrompt: `${SYSTEM_ROLE}
 
 TASK: Generate content for a ${sectionType} component.
 EXACT OUTPUT SCHEMA: ${schema}
@@ -105,19 +107,22 @@ RULES:
 - Arrays must have at least 3 items (except socialLinks which needs 2+).
 - rating fields must be 4 or 5 (positive testimonials).
 - price fields should be realistic for the industry.`,
-      userPrompt: `Generate ${sectionType} content for: ${prompt}`,
-      maxTokens: 2048,
-      json: true,
+        userPrompt: `Generate ${sectionType} content for: ${prompt}`,
+        maxTokens: 2048,
+        json: true,
+      });
+
+      return { id: uuidv4(), type: sectionType, props, order: 0 };
     });
 
-    return { id: uuidv4(), type: sectionType, props, order: 0 };
-  });
+    const batchResults = await Promise.allSettled(batchPromises);
+    batchResults
+      .filter(r => r.status === 'fulfilled' && r.value)
+      .forEach(r => sections.push(r.value));
+  }
 
-  const results = await Promise.allSettled(sectionPromises);
-  const sections = results
-    .filter(r => r.status === 'fulfilled' && r.value)
-    .map(r => r.value)
-    .map((s, i) => ({ ...s, order: i }));
+  // Assign order
+  sections.forEach((s, i) => { s.order = i; });
 
   if (sections.length === 0) {
     throw new Error('AI failed to generate any sections');
