@@ -63,7 +63,7 @@ export const RegisterForm: React.FC = () => {
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center gap-2 mb-3">
               <Sparkles className="h-8 w-8 text-blue-600" />
-              <span className="text-3xl font-bold text-gray-900">PageForge</span>
+              <span className="text-3xl font-bold text-gray-900">ZeroBuild</span>
             </div>
             <p className="text-gray-500 text-sm">AI-Powered Website Builder</p>
           </div>

@@ -45,7 +45,7 @@ export default function NavBar() {
                 scrolled ? 'text-slate-900' : 'text-white'
               )}
             >
-              PageForge
+              ZeroBuild
             </span>
           </Link>
 

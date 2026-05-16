@@ -2,7 +2,7 @@
  * In-memory database that mimics the pg query() interface.
  * Swap this for the real PostgreSQL version when deploying to Railway.
  *
- * Dummy user: demo@pageforge.com / password123
+ * Dummy user: demo@zerobuild.com / password123
  */
 
 import { v4 as uuidv4 } from 'uuid';
@@ -229,13 +229,13 @@ export async function query(text, params = []) {
 // ─── Initialize with dummy data ──────────────────────────────────────
 
 export async function initDatabase() {
-  // Create dummy user: demo@pageforge.com / password123
-  const existingUser = tables.users.find(u => u.email === 'demo@pageforge.com');
+  // Create dummy user: demo@zerobuild.com / password123
+  const existingUser = tables.users.find(u => u.email === 'demo@zerobuild.com');
   if (!existingUser) {
     const hash = await bcrypt.hash('password123', 12);
     const demoUser = {
       id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
-      email: 'demo@pageforge.com',
+      email: 'demo@zerobuild.com',
       password_hash: hash,
       name: 'Demo User',
       avatar_url: null,
@@ -273,7 +273,7 @@ export async function initDatabase() {
           accentColor: '#F59E0B',
         },
         whatsapp: { phoneNumber: '', defaultMessage: 'Hi!', enabled: false },
-        seo: { title: 'My First Website', description: 'A beautiful website built with PageForge', keywords: ['website', 'landing page'] },
+        seo: { title: 'My First Website', description: 'A beautiful website built with ZeroBuild', keywords: ['website', 'landing page'] },
         sections: [
           {
             id: 'hero-001',
@@ -281,7 +281,7 @@ export async function initDatabase() {
             order: 0,
             props: {
               heading: 'Welcome to My Website',
-              subheading: 'Built with PageForge AI Website Builder',
+              subheading: 'Built with ZeroBuild AI Website Builder',
               ctaText: 'Get Started',
               ctaLink: '#contact',
               backgroundImage: '',
@@ -350,7 +350,7 @@ export async function initDatabase() {
     console.log('  ╔══════════════════════════════════════════════════╗');
     console.log('  ║  IN-MEMORY DATABASE — Demo Mode                 ║');
     console.log('  ║                                                  ║');
-    console.log('  ║  Login:    demo@pageforge.com                   ║');
+    console.log('  ║  Login:    demo@zerobuild.com                   ║');
     console.log('  ║  Password: password123                          ║');
     console.log('  ║                                                  ║');
     console.log('  ║  Data resets on server restart.                  ║');

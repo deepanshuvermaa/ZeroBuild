@@ -121,7 +121,7 @@ export const ProjectList: React.FC = () => {
             {/* Logo */}
             <div className="flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">PageForge</span>
+              <span className="text-xl font-bold text-gray-900">ZeroBuild</span>
             </div>
 
             {/* Right side */}

@@ -127,7 +127,7 @@ export const TopToolbar: React.FC<TopToolbarProps> = ({ builderMode = 'visual', 
           )}
           <Code className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
           <div className="hidden sm:flex flex-col">
-            <h1 className="text-sm font-bold text-gray-900">PageForge</h1>
+            <h1 className="text-sm font-bold text-gray-900">ZeroBuild</h1>
             <p className="text-xs text-gray-500 truncate max-w-[100px] md:max-w-none">{config.metadata.projectName}</p>
           </div>
         </div>

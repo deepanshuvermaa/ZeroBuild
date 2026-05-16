@@ -1,28 +1,28 @@
 import { motion } from 'framer-motion';
-import { MessageSquareText, SlidersHorizontal, Rocket } from 'lucide-react';
+import { MessageSquareText, MousePointerClick, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const steps = [
   {
     num: 1,
     icon: MessageSquareText,
-    title: 'Describe',
+    title: 'Type Your Prompt',
     description:
-      "Tell AI what you want. 'A modern landing page for my coffee shop with menu and gallery.'",
+      'Describe your business in plain English. "A modern landing page for a dental clinic with pricing and testimonials." That\'s it.',
   },
   {
     num: 2,
-    icon: SlidersHorizontal,
-    title: 'Customize',
+    icon: MousePointerClick,
+    title: 'Edit Every Section',
     description:
-      'Fine-tune with drag-and-drop. Edit text, colors, images, and layout.',
+      'Your full website appears instantly. Drag sections to reorder, click to edit text, swap colors, upload images — each section is fully customizable.',
   },
   {
     num: 3,
     icon: Rocket,
-    title: 'Deploy',
+    title: 'Deploy in One Click',
     description:
-      'One click to go live. Your site is ready for the world.',
+      'Push live to Railway or upload to cPanel. Your site goes from prompt to published without touching a single line of code.',
   },
 ];
 
@@ -48,16 +48,16 @@ export default function HowItWorks() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
-            Three Steps to Your Perfect Website
+            Prompt. Edit. Deploy.
           </h2>
-          <p className="mt-4 text-lg text-slate-600">
-            From idea to live site in minutes
+          <p className="mt-4 text-lg text-slate-600 max-w-xl mx-auto">
+            The entire flow from idea to live website takes under 2 minutes.
           </p>
         </motion.div>
 
         {/* Steps */}
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-          {/* Dotted connector line — desktop only */}
+          {/* Connector line — desktop only */}
           <div className="hidden md:block absolute top-16 left-[20%] right-[20%] border-t-2 border-dashed border-slate-200 pointer-events-none" />
 
           {steps.map((step, i) => (
@@ -89,6 +89,29 @@ export default function HowItWorks() {
             </motion.div>
           ))}
         </div>
+
+        {/* Section types callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-20 rounded-2xl bg-slate-50 border border-slate-200 p-8 text-center"
+        >
+          <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wider mb-3">
+            19 Section Types — All Editable
+          </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {['Hero', 'About', 'Features', 'Services', 'Pricing', 'FAQ', 'Testimonials', 'Gallery', 'Stats', 'CTA', 'Cards', 'Timeline', 'Menu', 'Job Board', 'Profiles', 'Categories', 'Offers', 'WhatsApp', 'Footer'].map((s) => (
+              <span
+                key={s}
+                className="rounded-full bg-white border border-slate-200 px-3 py-1 text-xs text-slate-600 shadow-sm"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

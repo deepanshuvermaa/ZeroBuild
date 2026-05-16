@@ -1,60 +1,60 @@
 import { motion } from 'framer-motion';
 import {
-  Sparkles,
-  MousePointerClick,
-  Palette,
-  Rocket,
   Wand2,
+  MousePointerClick,
+  Layers,
+  Rocket,
+  SlidersHorizontal,
   Zap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const features = [
   {
-    icon: Sparkles,
-    title: 'AI Page Generation',
+    icon: Wand2,
+    title: 'One Prompt, Full Website',
     description:
-      'Describe your business in one sentence and get a complete website with copy, design, and layout.',
+      'Describe your business and the AI assembles a complete multi-section website — copy, colors, layout — in under 60 seconds.',
     color: 'text-indigo-600',
     bg: 'bg-indigo-50',
   },
   {
-    icon: MousePointerClick,
-    title: 'Drag & Drop Editor',
+    icon: Layers,
+    title: 'Every Section, Your Way',
     description:
-      'Fine-tune every section with our intuitive visual editor. No coding required.',
+      'Hero, Pricing, FAQ, Gallery, Testimonials — each section is independently editable. Change one without touching the rest.',
     color: 'text-purple-600',
     bg: 'bg-purple-50',
   },
   {
-    icon: Palette,
-    title: 'Smart Design System',
+    icon: MousePointerClick,
+    title: 'Drag & Drop Reorder',
     description:
-      'AI picks colors, fonts, and styles that match your brand. 19 section types available.',
+      'Reorder sections instantly by dragging. The AI generates the structure; you decide the final order.',
     color: 'text-pink-600',
     bg: 'bg-pink-50',
   },
   {
     icon: Rocket,
-    title: 'One-Click Deploy',
+    title: 'One-Click Deployment',
     description:
-      'Deploy to Railway or cPanel with a single click. Custom domains supported.',
+      'Deploy to Railway or upload to cPanel FTP in a single click. Custom domains supported out of the box.',
     color: 'text-orange-600',
     bg: 'bg-orange-50',
   },
   {
-    icon: Wand2,
-    title: 'AI Editing Assistant',
+    icon: SlidersHorizontal,
+    title: 'AI Section Editing',
     description:
-      "Tell the AI to 'make it more modern' or 'change the theme to luxury' — it just works.",
+      'Select any section and tell the AI what to change — "make this more professional", "add 3 more features". It updates instantly.',
     color: 'text-emerald-600',
     bg: 'bg-emerald-50',
   },
   {
     icon: Zap,
-    title: 'Lightning Fast',
+    title: 'Production-Ready Output',
     description:
-      'Static sites load in under 2 seconds. Lighthouse score 90+. Mobile responsive.',
+      'Static sites that load in under 2 seconds. Mobile responsive. Lighthouse 90+. Export as clean HTML at any time.',
     color: 'text-amber-600',
     bg: 'bg-amber-50',
   },
@@ -89,10 +89,10 @@ export default function FeaturesLanding() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
-            Everything You Need to Build Amazing Websites
+            Build Everything. Control Everything.
           </h2>
           <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-            From AI generation to one-click deployment
+            AI does the heavy lifting. You have full control over every section.
           </p>
         </motion.div>
 

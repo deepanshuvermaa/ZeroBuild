@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 const testimonials = [
   {
     quote:
-      'PageForge saved us hours of development time. We went from idea to deployed site in under 10 minutes.',
+      'ZeroBuild saved us hours of development time. We went from idea to deployed site in under 10 minutes.',
     name: 'Sarah K.',
     role: 'Agency Owner',
     initials: 'SK',
@@ -13,7 +13,7 @@ const testimonials = [
   },
   {
     quote:
-      'The AI generation is shockingly good. It understood our pharmacy business perfectly on the first try.',
+      'The AI understood our pharmacy business perfectly on the first prompt. Every section was exactly what we needed.',
     name: 'Dr. Ahmed R.',
     role: 'PharmaBill',
     initials: 'AR',
@@ -21,7 +21,7 @@ const testimonials = [
   },
   {
     quote:
-      "Finally, a website builder that doesn't require a CS degree. My clients love the results.",
+      "Finally a website builder that doesn't require a CS degree. I edit each section myself and my clients love it.",
     name: 'Marco T.',
     role: 'Freelancer',
     initials: 'MT',
@@ -54,10 +54,10 @@ export default function TestimonialsLanding() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
-            Loved by Builders Worldwide
+            What Builders Say
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            See what our users have to say
+            Real results from real users
           </p>
         </motion.div>
 
@@ -75,19 +75,13 @@ export default function TestimonialsLanding() {
             >
               <Quote className="h-8 w-8 text-indigo-100 mb-4" />
 
-              {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: 5 }).map((_, si) => (
-                  <Star
-                    key={si}
-                    className="h-4 w-4 fill-amber-400 text-amber-400"
-                  />
+                  <Star key={si} className="h-4 w-4 fill-amber-400 text-amber-400" />
                 ))}
               </div>
 
-              <p className="text-slate-700 leading-relaxed mb-6">
-                "{t.quote}"
-              </p>
+              <p className="text-slate-700 leading-relaxed mb-6">"{t.quote}"</p>
 
               <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                 <div
