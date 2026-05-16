@@ -136,10 +136,10 @@ export default function HeroLanding() {
         </div>
       </div>
 
-      {/* Hero Content — centered vertically */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center px-4 sm:px-6 md:px-12 py-8">
+      {/* Hero Content — centered */}
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 py-8 text-center">
         <div className="max-w-2xl">
-          <div className="animate-blur-fade-up flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-6 text-[11px] sm:text-sm text-white/80" style={{ animationDelay: '300ms' }}>
+          <div className="animate-blur-fade-up flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-4 sm:mb-6 text-[11px] sm:text-sm text-white/80" style={{ animationDelay: '300ms' }}>
             <span className="flex items-center gap-1"><Star size={12} className="fill-white text-white" /><span className="font-medium">AI-Powered</span></span>
             <span className="flex items-center gap-1"><Clock size={12} />Under 60s</span>
             <span className="flex items-center gap-1"><Calendar size={12} />19 Sections</span>
@@ -173,10 +173,10 @@ export default function HeroLanding() {
                 {isGenerating ? <Loader2 className="w-3.5 h-3.5 text-black animate-spin" /> : <Send className="w-3.5 h-3.5 text-black" />}
               </button>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-white/25 mt-1.5 ml-1">Free preview — no account needed</p>
+            <p className="text-[10px] sm:text-[11px] text-white/25 mt-1.5">Free preview — no account needed</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-5 sm:mt-6 animate-blur-fade-up" style={{ animationDelay: '700ms' }}>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 sm:mt-6 animate-blur-fade-up" style={{ animationDelay: '700ms' }}>
             <Link to="/register" className="rounded-full bg-white/10 border border-white/20 text-white font-medium text-sm px-5 sm:px-8 py-2 sm:py-3 hover:bg-white/20 transition-colors">
               Create Account
             </Link>
