@@ -2,18 +2,119 @@ import { useRef } from 'react';
 import { useBuilderStore } from '@/store/builderStore';
 import { PreviewComponentMap } from '@/components/PreviewComponents';
 
-function normalizeProps(props: Record<string, any>, theme: any): Record<string, any> {
+/**
+ * Deep normalize props to prevent React Error #31 (rendering objects as children).
+ * Maps AI output format to what preview components expect.
+ */
+function normalizeProps(props: Record<string, any>, sectionType: string): Record<string, any> {
   if (!props || typeof props !== 'object') return { heading: '', subheading: '', backgroundColor: '#ffffff' };
-  return {
+
+  const normalized: Record<string, any> = {
     ...props,
     heading: props.heading || props.title || '',
     subheading: props.subheading || props.subtitle || '',
     description: props.description || props.subtitle || props.subheading || '',
     backgroundColor: props.backgroundColor || '#ffffff',
     textColor: props.textColor || '#1f2937',
-    // Inject theme for components that need it
-    _theme: theme,
   };
+
+  // MenuSection: AI generates {categories: [{name, items}]} but component expects {menuItems, categories}
+  if (sectionType === 'MenuSection' && Array.isArray(props.categories) && props.categories[0]?.items) {
+    const cats = props.categories as Array<{name: string, items: any[]}>;
+    normalized.categories = ['All', ...cats.map(c => c.name)];
+    normalized.menuItems = cats.flatMap(cat =>
+      (cat.items || []).map((item: any) => ({
+        id: crypto.randomUUID(),
+        name: String(item.name || ''),
+        description: String(item.description || ''),
+        price: String(item.price || ''),
+        image: String(item.image || ''),
+        category: String(cat.name || ''),
+        badge: String(item.badge || ''),
+      }))
+    );
+  }
+
+  // TestimonialsSection: ensure all fields are strings
+  if (sectionType === 'TestimonialsSection' && Array.isArray(normalized.testimonials)) {
+    normalized.testimonials = normalized.testimonials.map((t: any) => ({
+      id: crypto.randomUUID(),
+      name: String(t.name || 'Customer'),
+      role: String(t.role || ''),
+      company: String(t.company || ''),
+      content: String(t.content || t.review || t.text || 'Great experience!'),
+      avatar: String(t.avatar || 'https://source.unsplash.com/150x150/?portrait'),
+      rating: Number(t.rating) || 5,
+    }));
+  }
+
+  // CategorySection: ensure categories have string fields
+  if (sectionType === 'CategorySection' && Array.isArray(normalized.categories)) {
+    normalized.categories = normalized.categories.map((c: any) => {
+      if (typeof c === 'string') return c;
+      return {
+        id: crypto.randomUUID(),
+        name: String(c.name || ''),
+        description: String(c.description || ''),
+        image: String(c.image || ''),
+        itemCount: Number(c.itemCount) || 0,
+      };
+    });
+  }
+
+  // CardSection: ensure cards have string fields
+  if (sectionType === 'CardSection' && Array.isArray(normalized.cards)) {
+    normalized.cards = normalized.cards.map((c: any) => ({
+      id: crypto.randomUUID(),
+      title: String(c.title || ''),
+      description: String(c.description || ''),
+      image: String(c.image || ''),
+      icon: String(c.icon || ''),
+      ctaText: String(c.ctaText || ''),
+      ctaLink: String(c.ctaLink || '#'),
+    }));
+  }
+
+  // OffersSection: ensure offers have string fields
+  if (sectionType === 'OffersSection' && Array.isArray(normalized.offers)) {
+    normalized.offers = normalized.offers.map((o: any) => ({
+      id: crypto.randomUUID(),
+      title: String(o.title || ''),
+      description: String(o.description || ''),
+      discount: String(o.discount || ''),
+      originalPrice: String(o.originalPrice || ''),
+      salePrice: String(o.salePrice || ''),
+      image: String(o.image || ''),
+      badge: String(o.badge || ''),
+      ctaText: String(o.ctaText || 'Shop Now'),
+      ctaLink: String(o.ctaLink || '#'),
+    }));
+  }
+
+  // FeatureSection/ServicesSection: ensure features/services have string fields
+  const arrayKey = normalized.features ? 'features' : normalized.services ? 'services' : null;
+  if (arrayKey && Array.isArray(normalized[arrayKey])) {
+    normalized[arrayKey] = normalized[arrayKey].map((f: any) => ({
+      id: crypto.randomUUID(),
+      icon: String(f.icon || '⭐'),
+      title: String(f.title || ''),
+      description: String(f.description || ''),
+      image: String(f.image || ''),
+      link: String(f.link || ''),
+    }));
+  }
+
+  // StatsSection: ensure stats are strings
+  if (sectionType === 'StatsSection' && Array.isArray(normalized.stats)) {
+    normalized.stats = normalized.stats.map((s: any) => ({
+      id: crypto.randomUUID(),
+      value: String(s.value || '0'),
+      label: String(s.label || ''),
+      icon: String(s.icon || ''),
+    }));
+  }
+
+  return normalized;
 }
 
 export default function PreviewCanvas() {
@@ -39,7 +140,7 @@ export default function PreviewCanvas() {
               <div key={section.id} className={`relative transition-all ${isSelected ? 'ring-2 ring-blue-500 ring-inset' : ''}`}>
                 <Component
                   id={section.id}
-                  props={normalizeProps(section.props as Record<string, any>, config.theme)}
+                  props={normalizeProps(section.props as Record<string, any>, section.type)}
                   isSelected={isSelected}
                   onSelect={() => setSelectedSection(section.id)}
                 />
