@@ -1,14 +1,27 @@
 import { useRef } from 'react';
-import { motion } from 'framer-motion';
 import { useBuilderStore } from '@/store/builderStore';
 import { PreviewComponentMap } from '@/components/PreviewComponents';
+
+/**
+ * Normalize AI-generated props to match what preview components expect.
+ * AI generates: title/subtitle (from SECTION_INTERFACES)
+ * Components expect: heading/subheading/description
+ */
+function normalizeProps(props: Record<string, any>): Record<string, any> {
+  if (!props || typeof props !== 'object') return { heading: '', subheading: '' };
+  return {
+    ...props,
+    heading: props.heading || props.title || '',
+    subheading: props.subheading || props.subtitle || '',
+    description: props.description || props.subtitle || props.subheading || '',
+  };
+}
 
 export default function PreviewCanvas() {
   const { config, selectedSectionId, setSelectedSection, previewMode } = useBuilderStore();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const sections = [...config.sections].sort((a, b) => a.order - b.order);
-
   const widthClass = previewMode === 'mobile' ? 'max-w-[375px]' : previewMode === 'tablet' ? 'max-w-[768px]' : 'w-full';
 
   return (
@@ -26,21 +39,14 @@ export default function PreviewCanvas() {
             const isSelected = selectedSectionId === section.id;
 
             return (
-              <motion.div
-                key={section.id}
-                onClick={() => setSelectedSection(section.id)}
-                className={`relative cursor-pointer transition-all duration-200 ${
-                  isSelected ? 'ring-2 ring-white/30 ring-offset-2 ring-offset-[#0a0a0a]' : 'hover:ring-1 hover:ring-white/10'
-                }`}
-                whileHover={{ scale: 1.001 }}
-              >
-                <Component {...section.props} theme={config.theme} />
-                {isSelected && (
-                  <div className="absolute top-2 right-2 bg-white/10 backdrop-blur-sm rounded-md px-2 py-0.5 text-[10px] text-white/60 border border-white/10">
-                    {section.type.replace('Section', '')}
-                  </div>
-                )}
-              </motion.div>
+              <div key={section.id} className="relative">
+                <Component
+                  id={section.id}
+                  props={normalizeProps(section.props as Record<string, any>)}
+                  isSelected={isSelected}
+                  onSelect={() => setSelectedSection(section.id)}
+                />
+              </div>
             );
           })
         )}

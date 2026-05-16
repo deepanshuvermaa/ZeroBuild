@@ -135,7 +135,12 @@ export const CanvasArea: React.FC = () => {
                         <SectionWrapper section={section}>
                           <PreviewComponent
                             id={section.id}
-                            props={section.props}
+                            props={{
+                              ...section.props,
+                              heading: (section.props as any).heading || (section.props as any).title || '',
+                              subheading: (section.props as any).subheading || (section.props as any).subtitle || '',
+                              description: (section.props as any).description || (section.props as any).subtitle || (section.props as any).subheading || '',
+                            }}
                             isSelected={selectedSectionId === section.id}
                             onSelect={() => setSelectedSection(section.id)}
                           />

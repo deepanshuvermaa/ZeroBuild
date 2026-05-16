@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
     }
 
     const result = await query(
-      'SELECT id, email, name, password_hash, plan, ai_credits_remaining, ai_credits_monthly_limit, avatar_url, created_at FROM users WHERE email = $1',
+      'SELECT id, email, name, password_hash, plan, role, ai_credits_remaining, ai_credits_monthly_limit, avatar_url, created_at FROM users WHERE email = $1',
       [email]
     );
 
@@ -98,7 +98,7 @@ router.post('/logout', (req, res) => {
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const result = await query(
-      'SELECT id, email, name, plan, ai_credits_remaining, ai_credits_monthly_limit, avatar_url, is_verified, created_at, updated_at FROM users WHERE id = $1',
+      'SELECT id, email, name, role, plan, ai_credits_remaining, ai_credits_monthly_limit, avatar_url, is_verified, created_at, updated_at FROM users WHERE id = $1',
       [req.user.id]
     );
 
