@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "clientName": "Delicious Bites Restaurant",
+    "projectName": "Restaurant Landing Page",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-11T00:00:00.000Z",
+    "version": "1.0"
+  },
+  "theme": {
+    "primaryColor": "#FF6B6B",
+    "secondaryColor": "#4ECDC4",
+    "fontFamily": "Inter",
+    "accentColor": "#FFE66D"
+  },
+  "whatsapp": {
+    "phoneNumber": "+1234567890",
+    "defaultMessage": "Hi! I'd like to make a reservation.",
+    "enabled": true
+  },
+  "seo": {
+    "title": "Delicious Bites - Fine Dining Restaurant",
+    "description": "Experience exceptional dining with our chef-curated menu. Fresh ingredients, authentic flavors, unforgettable atmosphere.",
+    "keywords": ["restaurant", "fine dining", "food", "reservations", "cuisine"]
+  },
+  "sections": []
+}

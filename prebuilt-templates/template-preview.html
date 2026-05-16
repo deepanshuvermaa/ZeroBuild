@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page Templates - Preview Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: scaleIn 0.6s ease backwards;
+        }
+
+        .template-card:nth-child(1) { animation-delay: 0.1s; }
+        .template-card:nth-child(2) { animation-delay: 0.2s; }
+        .template-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .template-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+
+        .card-image {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .template-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .template-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .template-industry {
+            color: #667eea;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .template-description {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .feature-tag {
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .animations-showcase {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .animations-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .animation-icons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .animation-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .animation-icon:hover {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .info-section h2 {
+            color: #1f2937;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            color: #6b7280;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: #f9fafb;
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            color: #6b7280;
+        }
+
+        .info-card li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 Pre-Built Landing Page Templates</h1>
+            <p class="subtitle">Professional, animation-rich templates ready to deploy</p>
+        </header>
+
+        <div class="templates-grid">
+            <!-- Restaurant Template -->
+            <div class="template-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4" alt="Restaurant">
+                    <div class="badge">Popular</div>
+                </div>
+                <div class="card-content">
+                    <div class="template-industry">Food & Beverage</div>
+                    <h2 class="template-title">Restaurant & Food Delivery</h2>
+                    <p class="template-description">
+                        Modern restaurant template with scroll animations, food galleries, and delivery focus. Perfect for restaurants, cafes, and catering services.
+                    </p>
+
+                    <div class="features-list">
+                        <span class="feature-tag">🍔 Menu Carousel</span>
+                        <span class="feature-tag">📱 Mobile First</span>
+                        <span class="feature-tag">🎪 Gallery</span>
+                        <span class="feature-tag">💬 WhatsApp</span>
+                    </div>
+
+                    <div class="animations-showcase">
+                        <div class="animations-title">Animations Included:</div>
+                        <div class="animation-icons">
+                            <div class="animation-icon" title="Fade Effects">✨</div>
+                            <div class="animation-icon" title="Parallax">🌊</div>
+                            <div class="animation-icon" title="Hover Effects">👆</div>
+                            <div class="animation-icon" title="Carousel">🎪</div>
+                            <div class="animation-icon" title="Kinetic Text">💫</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a href="restaurant-template.json" download class="btn btn-primary">Download JSON</a>
+                        <a href="#" class="btn btn-secondary">Preview</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Painting Template -->
+            <div class="template-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f" alt="Painting">
+                    <div class="badge">New</div>
+                </div>
+                <div class="card-content">
+                    <div class="template-industry">Home Services</div>
+                    <h2 class="template-title">Painting & Interior Design</h2>
+                    <p class="template-description">
+                        Professional painting service template with color emphasis and before/after galleries. Ideal for contractors and designers.
+                    </p>
+
+                    <div class="features-list">
+                        <span class="feature-tag">🎨 Color Palette</span>
+                        <span class="feature-tag">📸 Portfolio</span>
+                        <span class="feature-tag">⭐ Reviews</span>
+                        <span class="feature-tag">📞 Contact</span>
+                    </div>
+
+                    <div class="animations-showcase">
+                        <div class="animations-title">Animations Included:</div>
+                        <div class="animation-icons">
+                            <div class="animation-icon" title="Color Transitions">🎨</div>
+                            <div class="animation-icon" title="Split Text">📜</div>
+                            <div class="animation-icon" title="Parallax">🌊</div>
+                            <div class="animation-icon" title="Card Flip">💳</div>
+                            <div class="animation-icon" title="Gradient">🌈</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a href="painting-template.json" download class="btn btn-primary">Download JSON</a>
+                        <a href="#" class="btn btn-secondary">Preview</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Furniture Template -->
+            <div class="template-card">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" alt="Furniture">
+                    <div class="badge">Premium</div>
+                </div>
+                <div class="card-content">
+                    <div class="template-industry">Home & Decor</div>
+                    <h2 class="template-title">Furniture & Home Decor</h2>
+                    <p class="template-description">
+                        Elegant furniture store template with 3D hover effects, product showcases, and minimalist design aesthetics.
+                    </p>
+
+                    <div class="features-list">
+                        <span class="feature-tag">🛋️ 3D Effects</span>
+                        <span class="feature-tag">🎯 Minimalist</span>
+                        <span class="feature-tag">🖼️ Grid Layout</span>
+                        <span class="feature-tag">✨ Premium</span>
+                    </div>
+
+                    <div class="animations-showcase">
+                        <div class="animations-title">Animations Included:</div>
+                        <div class="animation-icons">
+                            <div class="animation-icon" title="3D Transforms">🎲</div>
+                            <div class="animation-icon" title="Perspective">📐</div>
+                            <div class="animation-icon" title="Image Reveal">🔍</div>
+                            <div class="animation-icon" title="Letter Spacing">✨</div>
+                            <div class="animation-icon" title="Cursor Follow">🎯</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <a href="furniture-template.json" download class="btn btn-primary">Download JSON</a>
+                        <a href="#" class="btn btn-secondary">Preview</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-section">
+            <h2>✨ What's Included</h2>
+            <p>
+                Each template is fully configured with modern animations, responsive layouts, and WhatsApp integration.
+                Simply import into your builder, customize the content, and deploy!
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📱 Fully Responsive</h3>
+                    <ul>
+                        <li>Mobile-first design</li>
+                        <li>Tablet optimized</li>
+                        <li>Desktop ready</li>
+                        <li>Cross-browser tested</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🎨 Modern Animations</h3>
+                    <ul>
+                        <li>Scroll-triggered effects</li>
+                        <li>Hover interactions</li>
+                        <li>3D transforms</li>
+                        <li>Smooth transitions</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>⚡ Performance</h3>
+                    <ul>
+                        <li>Optimized loading</li>
+                        <li>Lazy image loading</li>
+                        <li>CSS animations</li>
+                        <li>< 2s load time</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🛠️ Easy Customization</h3>
+                    <ul>
+                        <li>JSON configuration</li>
+                        <li>Color schemes</li>
+                        <li>Font options</li>
+                        <li>Content editable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Part of the Landing Page Builder & Deployment System</p>
+            <p style="margin-top: 8px; font-size: 0.9rem;">Check out README.md and animations-library.md for detailed documentation</p>
+        </footer>
+    </div>
+</body>
+</html>

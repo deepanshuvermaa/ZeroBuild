@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss init:*)",
+      "Bash(npm exec tailwindcss:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(find:*)",
+      "Bash(awk:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run build-server:*)",
+      "Bash(mkdir:*)",
+      "Bash(copy:*)",
+      "Bash(start prebuilt-templates/template-preview.html)",
+      "Bash(npx tsc:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

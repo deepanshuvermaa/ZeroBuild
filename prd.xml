@@ -1,0 +1,236 @@
+<PRD>
+  <ProductName>Landing Page Builder & Deployment System</ProductName>
+  <Version>1.0</Version>
+  <Owner>YourName</Owner>
+  <LastUpdated>2025-01-01</LastUpdated>
+
+  <Overview>
+    <Summary>
+      A React-based internal landing page builder used to create modern, animated, static websites 
+      for small business clients. Clients do not edit their sites; they only receive the final 
+      deployed website on a custom domain hosted on a shared cPanel environment. All customer 
+      interaction flows through WhatsApp only.
+    </Summary>
+    <Goals>
+      <Goal>Create landing pages quickly using reusable components.</Goal>
+      <Goal>Enable drag-and-drop assembly & inline editing of content.</Goal>
+      <Goal>Export final website as a static build (HTML/CSS/JS) ready for cPanel hosting.</Goal>
+      <Goal>Ensure modern UI with animations using React + Tailwind + Framer Motion.</Goal>
+    </Goals>
+    <NonGoals>
+      <NonGoal>No client login system.</NonGoal>
+      <NonGoal>No client-side editing.</NonGoal>
+      <NonGoal>No dynamic backend or server-side rendering.</NonGoal>
+      <NonGoal>No database dependency.</NonGoal>
+    </NonGoals>
+  </Overview>
+
+  <Users>
+    <PrimaryUser>
+      <Role>BuilderAdmin</Role>
+      <Description>
+        Internal operator responsible for creating, editing, and exporting landing pages 
+        for client businesses.
+      </Description>
+    </PrimaryUser>
+    <SecondaryUser>
+      <Role>Client</Role>
+      <Description>
+        Small business owner who will receive a completed website hosted on a custom domain.
+      </Description>
+    </SecondaryUser>
+  </Users>
+
+  <SystemArchitecture>
+    <Components>
+      <Component name="BuilderApp">
+        <TechStack>React + Vite + Tailwind CSS + Framer Motion</TechStack>
+        <Description>
+          An internal application enabling drag-and-drop layout creation, section editing,
+          configuration saving/loading (via JSON), and exporting final builds.
+        </Description>
+      </Component>
+      <Component name="ClientTemplateApp">
+        <TechStack>React + Vite (static build)</TechStack>
+        <Description>
+          A generic template project that consumes a JSON config and renders the final 
+          client landing page with animations.
+        </Description>
+      </Component>
+      <Component name="StaticExporter">
+        <Description>
+          Takes a configuration JSON and produces a deployable static build. Outputs 
+          /dist folder containing index.html, CSS, JS, and assets.
+        </Description>
+      </Component>
+      <Component name="cPanelHosting">
+        <Description>
+          Shared hosting used for deploying exported static builds. Each client has a 
+          domain mapped to a folder under public_html.
+        </Description>
+      </Component>
+    </Components>
+  </SystemArchitecture>
+
+  <FunctionalRequirements>
+
+    <Requirement id="FR-01">
+      <Title>Component Library</Title>
+      <Description>
+        The system must include a reusable library of visual components that can be 
+        added to a page layout.
+      </Description>
+      <Components>
+        <Component>HeroSection</Component>
+        <Component>AboutSection</Component>
+        <Component>ServicesSection</Component>
+        <Component>MenuSection</Component>
+        <Component>GallerySection</Component>
+        <Component>TestimonialsSection</Component>
+        <Component>OffersSection</Component>
+        <Component>CTASection</Component>
+        <Component>FooterSection</Component>
+        <Component>FloatingWhatsAppButton</Component>
+      </Components>
+    </Requirement>
+
+    <Requirement id="FR-02">
+      <Title>Drag and Drop Layout Builder</Title>
+      <Description>
+        Admin must be able to add sections, reorder them, delete them, and configure 
+        content using a drag-and-drop interface.
+      </Description>
+      <Features>
+        <Feature>Left panel listing components</Feature>
+        <Feature>Central live preview canvas</Feature>
+        <Feature>Right panel for editing section props</Feature>
+        <Feature>Undo/Redo (optional)</Feature>
+      </Features>
+    </Requirement>
+
+    <Requirement id="FR-03">
+      <Title>Section Configuration Editing</Title>
+      <Description>
+        Each component must have editable fields such as headings, subheadings, 
+        colors, image URLs, menu items, testimonials, etc.
+      </Description>
+      <InputTypes>
+        <Input>Text</Input>
+        <Input>Textarea</Input>
+        <Input>ImageUploadOrURL</Input>
+        <Input>ColorPicker</Input>
+        <Input>RepeatingList (e.g., menu items)</Input>
+      </InputTypes>
+    </Requirement>
+
+    <Requirement id="FR-04">
+      <Title>WhatsApp Integration</Title>
+      <Description>
+        All client contact must route through a WhatsApp link using wa.me URLs. 
+        A floating WhatsApp button must be present on all pages.
+      </Description>
+    </Requirement>
+
+    <Requirement id="FR-05">
+      <Title>Config Save & Load</Title>
+      <Description>
+        The builder must allow exporting the entire page configuration as JSON 
+        and re-importing it later to continue editing.
+      </Description>
+      <Format>
+        <Type>JSON</Type>
+      </Format>
+    </Requirement>
+
+    <Requirement id="FR-06">
+      <Title>Static Export of Final Website</Title>
+      <Description>
+        The system must generate a static website build compatible with cPanel hosting. 
+        This includes index.html, CSS files, JS bundles, and assets.
+      </Description>
+      <Output>
+        <Folder>/dist</Folder>
+      </Output>
+    </Requirement>
+
+    <Requirement id="FR-07">
+      <Title>Animations & Transitions</Title>
+      <Description>
+        Pages must use smooth, modern animations via Framer Motion or equivalent. 
+        Animations should include fade-in, slide-in, hover effects, and scroll reveal.
+      </Description>
+    </Requirement>
+
+    <Requirement id="FR-08">
+      <Title>cPanel Deployment</Title>
+      <Description>
+        Exported builds must be deployable on cPanel as addon domains. Admin manually 
+        uploads the /dist files to the client's domain root.
+      </Description>
+    </Requirement>
+
+  </FunctionalRequirements>
+
+  <NonFunctionalRequirements>
+
+    <Requirement id="NFR-01">
+      <Title>Performance</Title>
+      <Description>
+        Pages must load under 2 seconds on 4G mobile networks. Image optimization 
+        and lightweight animations are required.
+      </Description>
+    </Requirement>
+
+    <Requirement id="NFR-02">
+      <Title>Usability</Title>
+      <Description>
+        The builder interface must be intuitive for internal admin use with clean 
+        visual organization.
+      </Description>
+    </Requirement>
+
+    <Requirement id="NFR-03">
+      <Title>Reliability</Title>
+      <Description>
+        Static builds must work offline and without any backend dependency.
+      </Description>
+    </Requirement>
+
+    <Requirement id="NFR-04">
+      <Title>Maintainability</Title>
+      <Description>
+        Component library should support adding new components without breaking 
+        existing exported sites.
+      </Description>
+    </Requirement>
+
+  </NonFunctionalRequirements>
+
+  <UserFlow>
+    <Step id="1">Admin opens the Builder App.</Step>
+    <Step id="2">Admin drags sections to create a page layout.</Step>
+    <Step id="3">Admin edits content on each section (text, images, colors).</Step>
+    <Step id="4">Admin tests animations and responsiveness in preview.</Step>
+    <Step id="5">Admin exports page config JSON.</Step>
+    <Step id="6">Admin injects config JSON into Client Template app.</Step>
+    <Step id="7">Admin runs static build creating /dist folder.</Step>
+    <Step id="8">Admin uploads /dist files to cPanel under client’s addon domain.</Step>
+    <Step id="9">Client receives domain and final website.</Step>
+  </UserFlow>
+
+  <Risks>
+    <Risk>
+      <Description>Increasing number of configs may require organization or version control.</Description>
+      <Mitigation>Use naming conventions and Git repo storage.</Mitigation>
+    </Risk>
+    <Risk>
+      <Description>Too many animations may degrade performance on low-end devices.</Description>
+      <Mitigation>Limit heavy animations; use Framer Motion efficiently.</Mitigation>
+    </Risk>
+    <Risk>
+      <Description>Manual deployment might become time-consuming as client volume grows.</Description>
+      <Mitigation>Automate build + upload via simple scripts in future versions.</Mitigation>
+    </Risk>
+  </Risks>
+
+</PRD>

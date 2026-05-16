@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "projectName": "Consulting Services",
+    "clientName": "Strategic Advisors Group",
+    "createdAt": "2025-12-12T07:30:33.597Z",
+    "updatedAt": "2025-12-12T07:30:33.597Z"
+  },
+  "seo": {
+    "title": "Strategic Advisors Group | Management Consulting Excellence",
+    "description": "Transform your business with proven strategies from Fortune 500 consultants",
+    "keywords": [
+      "consulting",
+      "management",
+      "strategy",
+      "business",
+      "advisory"
+    ]
+  },
+  "whatsapp": {
+    "enabled": true,
+    "phoneNumber": "1234567890",
+    "defaultMessage": "I would like to discuss consulting services",
+    "position": "bottom-right"
+  },
+  "sections": [
+    {
+      "id": "1",
+      "type": "HeroSection",
+      "order": 0,
+      "props": {
+        "heading": "Transform Your Business",
+        "subheading": "Strategic consulting that delivers measurable results",
+        "ctaText": "Schedule Consultation",
+        "ctaLink": "#contact",
+        "backgroundImage": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1600",
+        "backgroundColor": "#1E40AF",
+        "textColor": "#FFFFFF",
+        "overlayOpacity": 0.7
+      }
+    },
+    {
+      "id": "2",
+      "type": "ServicesSection",
+      "order": 1,
+      "props": {
+        "heading": "Our Expertise",
+        "subheading": "Comprehensive consulting services tailored to your needs",
+        "services": [
+          {
+            "id": "1",
+            "icon": "📊",
+            "title": "Business Strategy",
+            "description": "Develop winning strategies for growth, market entry, and competitive advantage"
+          },
+          {
+            "id": "2",
+            "icon": "⚙️",
+            "title": "Operational Excellence",
+            "description": "Optimize processes, reduce costs, and improve efficiency across your organization"
+          },
+          {
+            "id": "3",
+            "icon": "💼",
+            "title": "Digital Transformation",
+            "description": "Modernize your business with technology-driven solutions and digital strategies"
+          },
+          {
+            "id": "4",
+            "icon": "📈",
+            "title": "Change Management",
+            "description": "Lead successful organizational changes with proven methodologies and frameworks"
+          },
+          {
+            "id": "5",
+            "icon": "🎯",
+            "title": "Performance Improvement",
+            "description": "Maximize ROI through data-driven performance optimization and KPI management"
+          },
+          {
+            "id": "6",
+            "icon": "🌐",
+            "title": "Market Expansion",
+            "description": "Enter new markets confidently with comprehensive research and go-to-market strategies"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3",
+      "type": "AboutSection",
+      "order": 2,
+      "props": {
+        "heading": "Why Choose Us",
+        "description": "With over 25 years of experience and 500+ successful engagements, Strategic Advisors Group brings Fortune 500 expertise to businesses of all sizes. Our consultants have led transformations at the world's most respected companies.",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800",
+        "imageAlt": "Consulting team meeting",
+        "features": [
+          "500+ successful client engagements",
+          "Average 35% improvement in key metrics",
+          "Former executives from McKinsey, BCG, and Bain",
+          "98% client satisfaction rate"
+        ]
+      }
+    },
+    {
+      "id": "4",
+      "type": "TestimonialsSection",
+      "order": 3,
+      "props": {
+        "heading": "Client Success Stories",
+        "testimonials": [
+          {
+            "id": "1",
+            "name": "Robert Chen",
+            "comment": "Strategic Advisors helped us increase operational efficiency by 40% and reduce costs by $12M annually. Their expertise was invaluable.",
+            "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400",
+            "rating": 5
+          },
+          {
+            "id": "2",
+            "name": "Lisa Thompson",
+            "comment": "The digital transformation roadmap they created positioned us perfectly for future growth. Revenue increased 55% in 18 months.",
+            "image": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400",
+            "rating": 5
+          },
+          {
+            "id": "3",
+            "name": "Ahmed Hassan",
+            "comment": "Their strategic insights and hands-on approach delivered results beyond our expectations. True partners in our success.",
+            "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400",
+            "rating": 5
+          }
+        ]
+      }
+    },
+    {
+      "id": "5",
+      "type": "CTASection",
+      "order": 4,
+      "props": {
+        "heading": "Ready to Transform Your Business?",
+        "description": "Schedule a complimentary consultation to discuss how we can help you achieve your goals",
+        "ctaText": "Book Free Consultation",
+        "ctaLink": "#contact",
+        "backgroundColor": "#1E40AF",
+        "textColor": "#FFFFFF"
+      }
+    },
+    {
+      "id": "6",
+      "type": "FooterSection",
+      "order": 5,
+      "props": {
+        "businessName": "Strategic Advisors Group",
+        "tagline": "Transforming businesses, delivering results",
+        "address": "1 Executive Plaza, Suite 2000, Chicago, IL 60601",
+        "phone": "+1 (555) 246-8100",
+        "email": "contact@strategicadvisors.com",
+        "socialLinks": [
+          {
+            "platform": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "💼"
+          },
+          {
+            "platform": "Twitter",
+            "url": "https://twitter.com",
+            "icon": "🐦"
+          }
+        ]
+      }
+    }
+  ]
+}

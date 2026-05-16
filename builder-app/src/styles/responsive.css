@@ -1,0 +1,400 @@
+/* ===================================
+   Comprehensive Responsive Styles
+   For ALL Screen Sizes
+   =================================== */
+
+/* Mobile First Approach - Base Styles for Small Devices */
+@media (max-width: 320px) {
+  /* Extra Small Phones (iPhone SE, etc.) */
+  .hero-section {
+    min-height: 350px !important;
+    padding: 1rem !important;
+  }
+
+  .hero-heading {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-subheading {
+    font-size: 0.875rem !important;
+  }
+
+  .section-heading {
+    font-size: 1.25rem !important;
+  }
+
+  .section-padding {
+    padding: 2rem 1rem !important;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .card-padding {
+    padding: 1rem !important;
+  }
+
+  .button-primary {
+    padding: 0.625rem 1.25rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+  /* Small Phones (iPhone 6/7/8, etc.) */
+  .hero-section {
+    min-height: 375px !important;
+  }
+
+  .hero-heading {
+    font-size: 1.75rem !important;
+  }
+
+  .hero-subheading {
+    font-size: 1rem !important;
+  }
+
+  .section-heading {
+    font-size: 1.5rem !important;
+  }
+
+  .card-padding {
+    padding: 1.25rem !important;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 414px) {
+  /* Medium Phones (iPhone Plus, etc.) */
+  .hero-section {
+    min-height: 400px !important;
+  }
+
+  .hero-heading {
+    font-size: 2rem !important;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+@media (min-width: 415px) and (max-width: 575px) {
+  /* Large Phones */
+  .hero-section {
+    min-height: 425px !important;
+  }
+
+  .hero-heading {
+    font-size: 2.25rem !important;
+  }
+
+  .section-padding {
+    padding: 2.5rem 1.5rem !important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  /* Small Tablets Portrait */
+  .hero-section {
+    min-height: 475px !important;
+  }
+
+  .hero-heading {
+    font-size: 2.5rem !important;
+  }
+
+  .grid-container-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .section-heading {
+    font-size: 2rem !important;
+  }
+
+  .card-padding {
+    padding: 1.5rem !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Tablets & iPad */
+  .hero-section {
+    min-height: 550px !important;
+  }
+
+  .hero-heading {
+    font-size: 3rem !important;
+  }
+
+  .grid-container-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .grid-container-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
+  }
+
+  .section-padding {
+    padding: 3rem 2rem !important;
+  }
+
+  .about-image {
+    height: 350px !important;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* Small Desktops & Large Tablets */
+  .hero-section {
+    min-height: 600px !important;
+  }
+
+  .hero-heading {
+    font-size: 3.5rem !important;
+  }
+
+  .grid-container-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .grid-container-4 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .about-image {
+    height: 400px !important;
+  }
+
+  .section-padding {
+    padding: 3.5rem 2.5rem !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  /* Standard Desktops */
+  .hero-section {
+    min-height: 650px !important;
+  }
+
+  .hero-heading {
+    font-size: 4rem !important;
+  }
+
+  .grid-container-4 {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .about-image {
+    height: 450px !important;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1599px) {
+  /* Large Desktops */
+  .hero-section {
+    min-height: 675px !important;
+  }
+
+  .hero-heading {
+    font-size: 4.25rem !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  /* Extra Large Desktops & 4K Screens */
+  .hero-section {
+    min-height: 700px !important;
+  }
+
+  .hero-heading {
+    font-size: 4.5rem !important;
+  }
+
+  .section-padding {
+    padding: 4rem 3rem !important;
+  }
+
+  .container-max {
+    max-width: 1400px !important;
+  }
+}
+
+/* Orientation Specific */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Landscape Mobile Devices */
+  .hero-section {
+    min-height: 90vh !important;
+  }
+
+  .section-padding {
+    padding: 1.5rem 1rem !important;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+/* Code Editor Responsive Styles */
+@media (max-width: 768px) {
+  .code-editor-panel {
+    flex-direction: column !important;
+  }
+
+  .code-editor-left,
+  .code-editor-right {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .code-editor-panel {
+    flex-direction: row !important;
+  }
+
+  .code-editor-left,
+  .code-editor-right {
+    width: 50% !important;
+  }
+}
+
+/* Ensure full width containers */
+.full-width-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Prevent horizontal overflow */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.prevent-overflow {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ===================================
+   Mobile & Tablet Viewport Overrides
+   For Preview Mode
+   =================================== */
+
+/* Mobile Viewport Specific Styles - Force mobile layout regardless of screen size */
+.mobile-viewport * {
+  box-sizing: border-box;
+}
+
+/* Force single column grid in mobile viewport */
+.mobile-viewport .grid {
+  grid-template-columns: 1fr !important;
+}
+
+.mobile-viewport [class*="grid-cols-"] {
+  grid-template-columns: 1fr !important;
+}
+
+.mobile-viewport [class*="md:grid-cols-"],
+.mobile-viewport [class*="sm:grid-cols-"],
+.mobile-viewport [class*="lg:grid-cols-"] {
+  grid-template-columns: 1fr !important;
+}
+
+/* Mobile viewport typography */
+.mobile-viewport [class*="text-6xl"],
+.mobile-viewport [class*="text-5xl"] {
+  font-size: 1.875rem !important;
+  line-height: 2.25rem !important;
+}
+
+.mobile-viewport [class*="text-4xl"] {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
+}
+
+.mobile-viewport [class*="text-3xl"] {
+  font-size: 1.25rem !important;
+  line-height: 1.75rem !important;
+}
+
+.mobile-viewport [class*="text-2xl"] {
+  font-size: 1.125rem !important;
+  line-height: 1.5rem !important;
+}
+
+.mobile-viewport [class*="text-xl"] {
+  font-size: 1rem !important;
+  line-height: 1.5rem !important;
+}
+
+.mobile-viewport [class*="text-lg"] {
+  font-size: 0.9375rem !important;
+  line-height: 1.375rem !important;
+}
+
+/* Mobile viewport spacing */
+.mobile-viewport [class*="px-8"],
+.mobile-viewport [class*="px-6"],
+.mobile-viewport [class*="sm:px-8"],
+.mobile-viewport [class*="sm:px-6"],
+.mobile-viewport [class*="md:px-8"],
+.mobile-viewport [class*="md:px-6"] {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.mobile-viewport [class*="py-16"],
+.mobile-viewport [class*="py-12"],
+.mobile-viewport [class*="sm:py-16"],
+.mobile-viewport [class*="sm:py-12"] {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+.mobile-viewport [class*="gap-8"],
+.mobile-viewport [class*="gap-6"] {
+  gap: 1rem !important;
+}
+
+/* Mobile viewport min heights */
+.mobile-viewport [class*="min-h-"] {
+  min-height: 400px !important;
+}
+
+/* Tablet Viewport Specific Styles */
+.tablet-viewport [class*="md:grid-cols-3"],
+.tablet-viewport [class*="md:grid-cols-4"],
+.tablet-viewport [class*="lg:grid-cols-3"],
+.tablet-viewport [class*="lg:grid-cols-4"] {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+.tablet-viewport [class*="text-6xl"],
+.tablet-viewport [class*="text-5xl"] {
+  font-size: 3rem !important;
+  line-height: 1 !important;
+}
+
+.tablet-viewport [class*="text-4xl"] {
+  font-size: 2.5rem !important;
+  line-height: 1.1 !important;
+}
+
+.tablet-viewport [class*="text-3xl"] {
+  font-size: 2rem !important;
+  line-height: 1.2 !important;
+}

@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+builder-app/node_modules/
+client-template/node_modules/
+
+# Build outputs
+builder-app/dist/
+client-template/dist/
+builder-app/builds/
+
+# Environment files — NEVER commit these
+builder-app/server/.env
+.env
+.env.local
+.env.production
+
+# Uploads
+builder-app/server/uploads/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# Temp
+*.tmp
+graphify-out/

@@ -1,0 +1,418 @@
+{
+  "templateName": "Furniture & Home Decor",
+  "templateId": "furniture-001",
+  "industry": "Home & Decor",
+  "description": "Elegant furniture store template with 3D hover effects, product showcases, and minimalist design",
+  "previewImage": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+  "animations": {
+    "scrollReveal": true,
+    "parallax": true,
+    "3dEffects": true,
+    "hoverTransforms": true,
+    "smoothTransitions": true
+  },
+  "sections": [
+    {
+      "id": "hero-furniture",
+      "type": "HeroSection",
+      "animation": {
+        "type": "fadeInScale",
+        "duration": 1.2
+      },
+      "props": {
+        "layout": "full-width-centered",
+        "backgroundColor": "#F5F3EF",
+        "minHeight": "100vh",
+        "logo": {
+          "text": "HANOVER & TYKE",
+          "fontSize": "1.8rem",
+          "letterSpacing": "0.3em",
+          "color": "#3E2723",
+          "animation": "fadeIn"
+        },
+        "navigation": {
+          "items": [
+            { "text": "HOME", "url": "#home", "active": true },
+            { "text": "ABOUT", "url": "#about" },
+            { "text": "PRODUCT", "url": "#products" },
+            { "text": "CONTACT", "url": "#contact" }
+          ],
+          "style": "minimal",
+          "backgroundColor": "#4A3728",
+          "textColor": "#FFFFFF",
+          "activeColor": "#D4A574",
+          "hoverEffect": "underline-grow"
+        },
+        "content": {
+          "image": {
+            "url": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+            "alt": "Minimalist living room",
+            "position": "left",
+            "width": "45%",
+            "borderRadius": "20px",
+            "animation": "parallaxLeft",
+            "overlay": "subtle-vignette"
+          },
+          "title": {
+            "text": "Timeless Design,\nPremium Materials",
+            "fontSize": "clamp(2.5rem, 6vw, 5rem)",
+            "fontWeight": "400",
+            "color": "#3E2723",
+            "lineHeight": "1.2",
+            "animation": "splitTextReveal",
+            "stagger": 0.08
+          },
+          "description": {
+            "text": "Whether you love modern minimalism, timeless classics, or bold statement pieces.",
+            "fontSize": "1.2rem",
+            "color": "#6B5D53",
+            "maxWidth": "600px",
+            "animation": "fadeInUp",
+            "delay": 0.5
+          },
+          "badges": [
+            {
+              "text": "HIGH QUALITY",
+              "style": "outlined",
+              "borderColor": "#3E2723",
+              "animation": "fadeIn"
+            },
+            {
+              "text": "PREMIUM DESIGN",
+              "style": "outlined",
+              "borderColor": "#3E2723",
+              "animation": "fadeIn"
+            },
+            {
+              "text": "VERSATILE",
+              "style": "outlined",
+              "borderColor": "#3E2723",
+              "animation": "fadeIn"
+            }
+          ],
+          "button": {
+            "text": "LEARN MORE",
+            "icon": "arrow-right",
+            "backgroundColor": "#3E2723",
+            "textColor": "#FFFFFF",
+            "borderRadius": "0",
+            "padding": "16px 40px",
+            "hoverEffect": "slide-right",
+            "animation": "scaleIn",
+            "delay": 0.7
+          }
+        }
+      }
+    },
+    {
+      "id": "product-grid",
+      "type": "ServicesSection",
+      "animation": {
+        "type": "staggerGrid",
+        "delay": 0.1
+      },
+      "props": {
+        "layout": "numbered-grid",
+        "backgroundColor": "#FFFFFF",
+        "padding": "120px 0",
+        "items": [
+          {
+            "id": "prod-1",
+            "number": "01",
+            "title": "Minimal Sofa",
+            "subtitle": "Tailor-made pieces to fit your style.",
+            "image": "https://images.unsplash.com/photo-1550254478-ead40cc54513",
+            "backgroundColor": "#8B7355",
+            "textColor": "#FFFFFF",
+            "animation": "3d-tilt",
+            "hoverEffect": {
+              "type": "lift-rotate",
+              "rotateX": "5deg",
+              "translateY": "-10px",
+              "shadow": "0 30px 60px rgba(0,0,0,0.3)"
+            }
+          },
+          {
+            "id": "prod-2",
+            "number": "02",
+            "title": "Coffee Tables",
+            "subtitle": "High quality furniture designed to last.",
+            "image": "https://images.unsplash.com/photo-1565958011703-44f9829ba187",
+            "backgroundColor": "#F5F3EF",
+            "textColor": "#3E2723",
+            "animation": "3d-tilt",
+            "hoverEffect": {
+              "type": "lift-rotate",
+              "rotateX": "5deg",
+              "translateY": "-10px",
+              "shadow": "0 30px 60px rgba(0,0,0,0.3)"
+            }
+          },
+          {
+            "id": "prod-3",
+            "number": "03",
+            "title": "Decorations",
+            "subtitle": "Beauty meets daily responsibility.",
+            "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15",
+            "backgroundColor": "#F5F3EF",
+            "textColor": "#3E2723",
+            "animation": "3d-tilt",
+            "hoverEffect": {
+              "type": "lift-rotate",
+              "rotateX": "5deg",
+              "translateY": "-10px",
+              "shadow": "0 30px 60px rgba(0,0,0,0.3)"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "about-furniture",
+      "type": "AboutSection",
+      "animation": {
+        "type": "parallax",
+        "scrollSpeed": 0.7
+      },
+      "props": {
+        "layout": "centered-text",
+        "backgroundColor": "#3E2723",
+        "textColor": "#FFFFFF",
+        "padding": "100px 0",
+        "title": {
+          "text": "Craftsmanship Meets Modern Living",
+          "fontSize": "clamp(2rem, 5vw, 4rem)",
+          "fontWeight": "300",
+          "animation": "fadeInUp"
+        },
+        "description": {
+          "text": "Each piece in our collection is thoughtfully designed and crafted with premium materials. We believe furniture should be an investment in your comfort and style, built to last for generations.",
+          "fontSize": "1.2rem",
+          "lineHeight": "1.8",
+          "maxWidth": "800px",
+          "margin": "0 auto",
+          "animation": "fadeInUp",
+          "delay": 0.2
+        }
+      }
+    },
+    {
+      "id": "featured-collection",
+      "type": "GallerySection",
+      "animation": {
+        "type": "scrollReveal"
+      },
+      "props": {
+        "layout": "asymmetric-grid",
+        "backgroundColor": "#F5F3EF",
+        "title": "Featured Collection",
+        "titleStyle": {
+          "fontSize": "clamp(2.5rem, 6vw, 4.5rem)",
+          "fontWeight": "300",
+          "color": "#3E2723",
+          "textAlign": "center",
+          "animation": "letterSpacing"
+        },
+        "items": [
+          {
+            "id": "feat-1",
+            "image": "https://images.unsplash.com/photo-1540574163026-643ea20ade25",
+            "title": "Modern Armchair",
+            "price": "$899",
+            "gridArea": "large",
+            "animation": "zoomOnScroll",
+            "hoverEffect": "image-reveal"
+          },
+          {
+            "id": "feat-2",
+            "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc",
+            "title": "Scandinavian Sofa",
+            "price": "$1,599",
+            "gridArea": "medium",
+            "animation": "zoomOnScroll",
+            "hoverEffect": "image-reveal"
+          },
+          {
+            "id": "feat-3",
+            "image": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c",
+            "title": "Wooden Side Table",
+            "price": "$349",
+            "gridArea": "small",
+            "animation": "zoomOnScroll",
+            "hoverEffect": "image-reveal"
+          },
+          {
+            "id": "feat-4",
+            "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237",
+            "title": "Ceramic Vase Set",
+            "price": "$129",
+            "gridArea": "small",
+            "animation": "zoomOnScroll",
+            "hoverEffect": "image-reveal"
+          }
+        ],
+        "cardHover": {
+          "overlay": "gradient-fade",
+          "textAnimation": "slideUp",
+          "imageScale": 1.1
+        }
+      }
+    },
+    {
+      "id": "values",
+      "type": "ServicesSection",
+      "animation": {
+        "type": "fadeIn"
+      },
+      "props": {
+        "layout": "icon-cards-row",
+        "backgroundColor": "#FFFFFF",
+        "title": "Why Choose Us",
+        "items": [
+          {
+            "id": "val-1",
+            "icon": "quality",
+            "title": "Premium Quality",
+            "description": "Handpicked materials and expert craftsmanship",
+            "animation": "iconFloat"
+          },
+          {
+            "id": "val-2",
+            "icon": "design",
+            "title": "Timeless Design",
+            "description": "Pieces that never go out of style",
+            "animation": "iconFloat"
+          },
+          {
+            "id": "val-3",
+            "icon": "sustainability",
+            "title": "Sustainable",
+            "description": "Eco-friendly materials and processes",
+            "animation": "iconFloat"
+          },
+          {
+            "id": "val-4",
+            "icon": "warranty",
+            "title": "Lifetime Warranty",
+            "description": "We stand behind our craftsmanship",
+            "animation": "iconFloat"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cta-furniture",
+      "type": "CTASection",
+      "animation": {
+        "type": "fadeIn"
+      },
+      "props": {
+        "layout": "minimal-centered",
+        "backgroundColor": "#F5F3EF",
+        "title": "Transform Your Space Today",
+        "titleColor": "#3E2723",
+        "subtitle": "Visit our showroom or chat with us on WhatsApp",
+        "subtitleColor": "#6B5D53",
+        "buttons": [
+          {
+            "text": "Visit Showroom",
+            "type": "primary",
+            "backgroundColor": "#3E2723",
+            "textColor": "#FFFFFF",
+            "link": "#contact"
+          },
+          {
+            "text": "Chat on WhatsApp",
+            "type": "secondary",
+            "borderColor": "#3E2723",
+            "textColor": "#3E2723",
+            "icon": "whatsapp",
+            "link": "https://wa.me/1234567890"
+          }
+        ],
+        "buttonAnimation": "hover-expand"
+      }
+    },
+    {
+      "id": "footer-furniture",
+      "type": "FooterSection",
+      "props": {
+        "backgroundColor": "#3E2723",
+        "textColor": "#B8AFA6",
+        "layout": "elegant-grid",
+        "logo": {
+          "text": "HANOVER & TYKE",
+          "color": "#D4A574",
+          "letterSpacing": "0.2em"
+        },
+        "sections": [
+          {
+            "title": "Shop",
+            "links": [
+              { "text": "Living Room", "url": "#living" },
+              { "text": "Bedroom", "url": "#bedroom" },
+              { "text": "Dining", "url": "#dining" },
+              { "text": "Accessories", "url": "#accessories" }
+            ]
+          },
+          {
+            "title": "Company",
+            "links": [
+              { "text": "About Us", "url": "#about" },
+              { "text": "Showroom", "url": "#showroom" },
+              { "text": "Contact", "url": "#contact" }
+            ]
+          },
+          {
+            "title": "Contact",
+            "content": [
+              "123 Design Street",
+              "New York, NY 10001",
+              "info@hanoverandtyke.com",
+              "+1 (555) 123-4567"
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "instagram", "url": "#" },
+          { "platform": "pinterest", "url": "#" },
+          { "platform": "facebook", "url": "#" }
+        ],
+        "copyright": "© 2025 Hanover & Tyke. All rights reserved."
+      }
+    }
+  ],
+  "globalSettings": {
+    "whatsapp": {
+      "enabled": true,
+      "number": "1234567890",
+      "message": "Hello! I'm interested in your furniture collection.",
+      "position": "bottom-right",
+      "animation": "fade-bounce",
+      "backgroundColor": "#3E2723"
+    },
+    "colorScheme": {
+      "primary": "#3E2723",
+      "secondary": "#8B7355",
+      "accent": "#D4A574",
+      "background": "#F5F3EF",
+      "text": "#3E2723"
+    },
+    "fonts": {
+      "heading": "'Cormorant Garamond', serif",
+      "body": "'Inter', sans-serif"
+    },
+    "animations": {
+      "pageTransition": "fade",
+      "defaultDuration": 0.8,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "smoothScroll": true,
+      "parallaxEnabled": true
+    },
+    "effects": {
+      "cursorFollow": true,
+      "smoothScrollbar": true,
+      "lazyLoadImages": true
+    }
+  }
+}

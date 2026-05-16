@@ -1,0 +1,376 @@
+{
+  "templateName": "Restaurant & Food Delivery",
+  "templateId": "restaurant-001",
+  "industry": "Food & Beverage",
+  "description": "Modern restaurant template with scroll animations, food galleries, and delivery focus",
+  "previewImage": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+  "animations": {
+    "scrollReveal": true,
+    "parallax": true,
+    "hoverEffects": true,
+    "kineticTypography": true,
+    "microInteractions": true
+  },
+  "sections": [
+    {
+      "id": "hero-1",
+      "type": "HeroSection",
+      "animation": {
+        "type": "fadeInUp",
+        "duration": 0.8,
+        "delay": 0.2,
+        "stagger": 0.15
+      },
+      "props": {
+        "layout": "split-screen",
+        "backgroundType": "image",
+        "backgroundColor": "#FFF5E6",
+        "backgroundImage": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
+        "backgroundOverlay": "rgba(0,0,0,0.3)",
+        "parallaxEffect": true,
+        "title": {
+          "text": "YOUR FAVORITE\nMEALS",
+          "highlight": "MEALS",
+          "highlightColor": "#DC2626",
+          "fontSize": "clamp(2.5rem, 8vw, 5rem)",
+          "fontWeight": "800",
+          "textAnimation": "slideInLeft"
+        },
+        "subtitle": {
+          "text": "Delivered Fast",
+          "fontFamily": "cursive",
+          "fontSize": "clamp(1.8rem, 5vw, 3.5rem)",
+          "color": "#DC2626",
+          "animation": "fadeIn"
+        },
+        "description": "Indulge in a culinary journey that delights your senses. At Rimberio, we serve a fusion of flavors using only the freshest ingredients. Join us for a memorable dining experience in a warm and inviting atmosphere.",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+          "alt": "Delicious burger with cheese",
+          "position": "right",
+          "hoverEffect": "zoom",
+          "floatingElements": true
+        },
+        "buttons": [
+          {
+            "text": "ORDER NOW",
+            "type": "primary",
+            "link": "#menu",
+            "backgroundColor": "#1F2937",
+            "hoverBackground": "#DC2626",
+            "animation": "pulse",
+            "icon": null
+          },
+          {
+            "text": "SEE VIDEO",
+            "type": "secondary",
+            "link": "#video",
+            "icon": "play",
+            "animation": "fadeIn"
+          }
+        ],
+        "decorativeElements": [
+          {
+            "type": "floating-leaf",
+            "count": 3,
+            "animation": "float"
+          }
+        ]
+      }
+    },
+    {
+      "id": "menu-showcase-1",
+      "type": "MenuSection",
+      "animation": {
+        "type": "scrollReveal",
+        "trigger": "onScroll",
+        "threshold": 0.2,
+        "effect": "slideUp"
+      },
+      "props": {
+        "layout": "carousel",
+        "backgroundColor": "linear-gradient(135deg, #FF6B35 0%, #DC2626 100%)",
+        "title": "Featured Dishes",
+        "titleColor": "#FFFFFF",
+        "description": "Our most loved creations",
+        "items": [
+          {
+            "id": "dish-1",
+            "name": "Katsu",
+            "image": "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
+            "price": "$15.99",
+            "description": "Crispy breaded cutlet with tangy sauce",
+            "rating": 5,
+            "animation": "scaleOnHover",
+            "hoverEffect": "lift-shadow"
+          },
+          {
+            "id": "dish-2",
+            "name": "Steak",
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e",
+            "price": "$24.99",
+            "description": "Premium grilled steak with herbs",
+            "rating": 5,
+            "animation": "scaleOnHover",
+            "hoverEffect": "lift-shadow"
+          },
+          {
+            "id": "dish-3",
+            "name": "Salad",
+            "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+            "price": "$12.99",
+            "description": "Fresh garden salad with seasonal fruits",
+            "rating": 5,
+            "animation": "scaleOnHover",
+            "hoverEffect": "lift-shadow"
+          }
+        ],
+        "carouselSettings": {
+          "autoplay": true,
+          "interval": 4000,
+          "transition": "smooth",
+          "arrows": true,
+          "dots": false
+        },
+        "cardAnimation": {
+          "hover": {
+            "scale": 1.05,
+            "shadow": "0 20px 40px rgba(0,0,0,0.2)",
+            "transition": "0.3s ease"
+          }
+        }
+      }
+    },
+    {
+      "id": "about-1",
+      "type": "AboutSection",
+      "animation": {
+        "type": "parallax",
+        "scrollSpeed": 0.5
+      },
+      "props": {
+        "layout": "image-left",
+        "backgroundColor": "#F3F4F6",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136",
+          "alt": "Modern interior design",
+          "borderRadius": "20px",
+          "animation": "fadeInLeft"
+        },
+        "badge": {
+          "text": "Our crew",
+          "color": "#2563EB",
+          "position": "top-right"
+        },
+        "title": {
+          "text": "A local Bayview team that respects your time",
+          "color": "#2563EB",
+          "fontSize": "clamp(2rem, 5vw, 3.5rem)",
+          "animation": "typewriter"
+        },
+        "description": "A local Bayview team that respects your time, your home, and your floors. We show up when we say we will, work carefully and efficiently, and leave your space spotless. From start to finish, you can count on us to deliver reliable service with pride and professionalism across the entire Bayview area.",
+        "textAnimation": "fadeInUp",
+        "stagger": 0.1
+      }
+    },
+    {
+      "id": "pizza-showcase",
+      "type": "ServicesSection",
+      "animation": {
+        "type": "scrollReveal",
+        "direction": "up"
+      },
+      "props": {
+        "layout": "grid-3-column",
+        "backgroundColor": "#7F1D1D",
+        "backgroundPattern": "dots",
+        "title": {
+          "main": "The Best Homemade Pizza in Town!",
+          "color": "#FFFFFF",
+          "animation": "splitText"
+        },
+        "subtitle": "We make pizza with love, by preserving our mother's homemade recipe heritage that passed down from generations.",
+        "centerpiece": {
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591",
+          "alt": "Fresh pizza",
+          "animation": "rotate-slow",
+          "floatingEffect": true
+        },
+        "items": [
+          {
+            "id": "pizza-1",
+            "title": "Our Favourite",
+            "subtitle": "Vegetarian Pizza",
+            "image": "https://images.unsplash.com/photo-1511689660979-10d2b1aada49",
+            "description": "Thin and crusty pizza with olive oil, zucchini, eggplant, peppers, mozzarella cheese, and tomato sauce.",
+            "position": "left",
+            "animation": "slideInLeft",
+            "arrowDirection": "right"
+          },
+          {
+            "id": "pizza-2",
+            "title": "Our Signature",
+            "subtitle": "Spinach Pizza",
+            "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
+            "description": "Thin and crusty pizza with spinach, ricotta cheese, and tomato sauce as toppings.",
+            "position": "top-right",
+            "animation": "fadeIn"
+          },
+          {
+            "id": "pizza-3",
+            "title": "The Best Seller",
+            "subtitle": "Mushroom Pizza",
+            "image": "https://images.unsplash.com/photo-1571997478779-2adcbbe9ab2f",
+            "description": "Thin and crusty pizza with beef, olive oil, parsley, champignons, porcini mushrooms, mozzarella cheese, and tomato sauce.",
+            "position": "bottom-right",
+            "animation": "slideInRight"
+          }
+        ],
+        "cardHoverEffect": {
+          "scale": 1.02,
+          "glow": true,
+          "lift": "8px"
+        }
+      }
+    },
+    {
+      "id": "food-gallery",
+      "type": "GallerySection",
+      "animation": {
+        "type": "stagger",
+        "delay": 0.1
+      },
+      "props": {
+        "layout": "masonry-grid",
+        "backgroundColor": "#FFFFFF",
+        "title": "for hungry foodies",
+        "titleStyle": {
+          "fontSize": "clamp(3rem, 8vw, 6rem)",
+          "color": "#DC2626",
+          "fontWeight": "700",
+          "animation": "kineticType"
+        },
+        "items": [
+          {
+            "id": "food-1",
+            "name": "Strawberry Pancake",
+            "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445",
+            "category": "Breakfast",
+            "border": "red",
+            "hoverEffect": "zoom-rotate"
+          },
+          {
+            "id": "food-2",
+            "name": "Cheesy Pasta",
+            "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+            "category": "Main",
+            "border": "red",
+            "hoverEffect": "zoom-rotate"
+          },
+          {
+            "id": "food-3",
+            "name": "Mexican Tacos",
+            "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47",
+            "category": "Main",
+            "border": "red",
+            "hoverEffect": "zoom-rotate"
+          },
+          {
+            "id": "food-4",
+            "name": "Spicy Spaghetti",
+            "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+            "category": "Main",
+            "border": "red",
+            "hoverEffect": "zoom-rotate"
+          }
+        ],
+        "showMoreButton": {
+          "text": "SHOW MORE",
+          "animation": "arrow-slide"
+        }
+      }
+    },
+    {
+      "id": "cta-1",
+      "type": "CTASection",
+      "animation": {
+        "type": "fadeIn"
+      },
+      "props": {
+        "backgroundColor": "#1F2937",
+        "textColor": "#FFFFFF",
+        "title": "Ready to Order?",
+        "subtitle": "Get your favorite meals delivered in 30 minutes",
+        "button": {
+          "text": "Order on WhatsApp",
+          "link": "https://wa.me/1234567890",
+          "backgroundColor": "#25D366",
+          "animation": "pulse-glow"
+        }
+      }
+    },
+    {
+      "id": "footer-1",
+      "type": "FooterSection",
+      "props": {
+        "backgroundColor": "#111827",
+        "textColor": "#9CA3AF",
+        "logo": {
+          "text": "Lage.",
+          "color": "#DC2626"
+        },
+        "sections": [
+          {
+            "title": "Quick Links",
+            "links": [
+              { "text": "Home", "url": "#home" },
+              { "text": "Menu", "url": "#menu" },
+              { "text": "About", "url": "#about" },
+              { "text": "Contact", "url": "#contact" }
+            ]
+          },
+          {
+            "title": "Contact",
+            "content": [
+              "123 Anywhere St., Any City",
+              "123-456-7890",
+              "@reallygreatsite"
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "facebook", "url": "#" },
+          { "platform": "instagram", "url": "#" },
+          { "platform": "twitter", "url": "#" }
+        ]
+      }
+    }
+  ],
+  "globalSettings": {
+    "whatsapp": {
+      "enabled": true,
+      "number": "1234567890",
+      "message": "Hello! I'd like to order...",
+      "position": "bottom-right",
+      "animation": "bounce"
+    },
+    "colorScheme": {
+      "primary": "#DC2626",
+      "secondary": "#1F2937",
+      "accent": "#F59E0B",
+      "background": "#FFFFFF",
+      "text": "#1F2937"
+    },
+    "fonts": {
+      "heading": "Inter, sans-serif",
+      "body": "Inter, sans-serif",
+      "accent": "'Pacifico', cursive"
+    },
+    "animations": {
+      "pageTransition": "fade",
+      "defaultDuration": 0.6,
+      "easing": "ease-out"
+    }
+  }
+}

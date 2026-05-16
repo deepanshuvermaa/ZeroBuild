@@ -1,0 +1,351 @@
+{
+  "templateName": "Painting & Interior Design",
+  "templateId": "painting-001",
+  "industry": "Home Services",
+  "description": "Professional painting service template with color emphasis and before/after galleries",
+  "previewImage": "https://images.unsplash.com/photo-1589939705384-5185137a7f0f",
+  "animations": {
+    "scrollReveal": true,
+    "colorTransitions": true,
+    "hoverEffects": true,
+    "parallax": true,
+    "fadeEffects": true
+  },
+  "sections": [
+    {
+      "id": "hero-painting",
+      "type": "HeroSection",
+      "animation": {
+        "type": "fadeIn",
+        "duration": 1,
+        "delay": 0
+      },
+      "props": {
+        "layout": "split-with-overlap",
+        "backgroundColor": "#FEF3E2",
+        "minHeight": "100vh",
+        "leftSection": {
+          "width": "45%",
+          "content": {
+            "logo": {
+              "text": "PAT'S",
+              "subtitle": "Painting Inc.",
+              "color": "#1F2937",
+              "animation": "slideInLeft"
+            },
+            "tagline": {
+              "text": "Interior and exterior painting done with proper prep and attention to detail",
+              "fontSize": "1.1rem",
+              "color": "#6B7280",
+              "animation": "fadeIn",
+              "delay": 0.3
+            },
+            "title": {
+              "parts": [
+                {
+                  "text": "Color",
+                  "color": "#059669",
+                  "fontWeight": "700",
+                  "fontSize": "clamp(3rem, 10vw, 7rem)"
+                },
+                {
+                  "text": " that stands the test of time",
+                  "color": "#1F2937",
+                  "fontWeight": "700",
+                  "fontSize": "clamp(3rem, 10vw, 7rem)"
+                }
+              ],
+              "animation": "splitTextReveal",
+              "stagger": 0.05
+            },
+            "button": {
+              "text": "EXPLORE",
+              "backgroundColor": "#059669",
+              "textColor": "#FFFFFF",
+              "borderRadius": "50px",
+              "padding": "18px 48px",
+              "fontSize": "1.1rem",
+              "hoverEffect": "lift-glow",
+              "animation": "scaleIn",
+              "delay": 0.6
+            }
+          }
+        },
+        "rightSection": {
+          "width": "55%",
+          "image": {
+            "url": "https://images.unsplash.com/photo-1615873968403-89e068629265",
+            "alt": "Green painted living room",
+            "borderRadius": "30px",
+            "animation": "slideInRight",
+            "parallax": true,
+            "overlayGradient": "linear-gradient(135deg, rgba(5,150,105,0.1) 0%, transparent 100%)"
+          }
+        }
+      }
+    },
+    {
+      "id": "about-painting",
+      "type": "AboutSection",
+      "animation": {
+        "type": "scrollReveal",
+        "threshold": 0.3
+      },
+      "props": {
+        "layout": "image-left-text-right",
+        "backgroundColor": "#FFFFFF",
+        "padding": "100px 0",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+          "alt": "Pastel blue interior",
+          "borderRadius": "20px",
+          "animation": "parallax",
+          "scrollSpeed": 0.8
+        },
+        "content": {
+          "badge": {
+            "text": "Our crew",
+            "backgroundColor": "#DBEAFE",
+            "color": "#1E40AF",
+            "borderRadius": "20px"
+          },
+          "title": {
+            "text": "A local Bayview team that respects your time, your home, and your floors",
+            "color": "#1E40AF",
+            "fontSize": "clamp(2rem, 5vw, 3.5rem)",
+            "fontWeight": "600",
+            "lineHeight": "1.2",
+            "animation": "fadeInUp"
+          },
+          "description": {
+            "text": "We show up when we say we will, work carefully and efficiently, and leave your space spotless. From start to finish, you can count on us to deliver reliable service with pride and professionalism across the entire Bayview area.",
+            "fontSize": "1.1rem",
+            "color": "#4B5563",
+            "lineHeight": "1.8",
+            "animation": "fadeInUp",
+            "delay": 0.2
+          }
+        }
+      }
+    },
+    {
+      "id": "services-painting",
+      "type": "ServicesSection",
+      "animation": {
+        "type": "stagger",
+        "childDelay": 0.15
+      },
+      "props": {
+        "layout": "cards-grid",
+        "backgroundColor": "#F9FAFB",
+        "title": "Our Services",
+        "titleAnimation": "slideInDown",
+        "items": [
+          {
+            "id": "service-1",
+            "icon": "brush",
+            "iconColor": "#059669",
+            "title": "Interior Painting",
+            "description": "Transform your living spaces with precision and care",
+            "animation": "cardFlip",
+            "hoverEffect": "lift-shadow"
+          },
+          {
+            "id": "service-2",
+            "icon": "home",
+            "iconColor": "#059669",
+            "title": "Exterior Painting",
+            "description": "Weather-resistant finishes that last",
+            "animation": "cardFlip",
+            "hoverEffect": "lift-shadow"
+          },
+          {
+            "id": "service-3",
+            "icon": "palette",
+            "iconColor": "#059669",
+            "title": "Color Consultation",
+            "description": "Expert guidance for perfect color selection",
+            "animation": "cardFlip",
+            "hoverEffect": "lift-shadow"
+          },
+          {
+            "id": "service-4",
+            "icon": "sparkles",
+            "iconColor": "#059669",
+            "title": "Surface Preparation",
+            "description": "Proper prep for flawless results",
+            "animation": "cardFlip",
+            "hoverEffect": "lift-shadow"
+          }
+        ]
+      }
+    },
+    {
+      "id": "color-showcase",
+      "type": "GallerySection",
+      "animation": {
+        "type": "colorWave",
+        "direction": "left-to-right"
+      },
+      "props": {
+        "layout": "color-blocks",
+        "title": {
+          "text": "Explore Our Color Palette",
+          "animation": "gradientText",
+          "gradient": "linear-gradient(90deg, #059669, #10B981, #34D399)"
+        },
+        "items": [
+          {
+            "id": "color-1",
+            "name": "Forest Green",
+            "hex": "#059669",
+            "image": "https://images.unsplash.com/photo-1615873968403-89e068629265",
+            "animation": "expandOnHover"
+          },
+          {
+            "id": "color-2",
+            "name": "Soft Blue",
+            "hex": "#3B82F6",
+            "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7",
+            "animation": "expandOnHover"
+          },
+          {
+            "id": "color-3",
+            "name": "Warm Beige",
+            "hex": "#D4A574",
+            "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6",
+            "animation": "expandOnHover"
+          },
+          {
+            "id": "color-4",
+            "name": "Modern Gray",
+            "hex": "#6B7280",
+            "image": "https://images.unsplash.com/photo-1600210492493-0946911123ea",
+            "animation": "expandOnHover"
+          }
+        ],
+        "hoverEffect": {
+          "type": "color-spread",
+          "duration": 0.5
+        }
+      }
+    },
+    {
+      "id": "testimonials",
+      "type": "TestimonialsSection",
+      "animation": {
+        "type": "carousel",
+        "autoplay": true
+      },
+      "props": {
+        "backgroundColor": "#FFFFFF",
+        "title": "What Our Clients Say",
+        "items": [
+          {
+            "id": "test-1",
+            "name": "Sarah Johnson",
+            "location": "Bayview",
+            "rating": 5,
+            "text": "Pat's team transformed our home! The attention to detail was incredible.",
+            "avatar": "https://i.pravatar.cc/150?img=1",
+            "animation": "slideInLeft"
+          },
+          {
+            "id": "test-2",
+            "name": "Mike Chen",
+            "location": "Bayview",
+            "rating": 5,
+            "text": "Professional, punctual, and the results exceeded our expectations.",
+            "avatar": "https://i.pravatar.cc/150?img=2",
+            "animation": "slideInLeft"
+          }
+        ],
+        "cardAnimation": {
+          "enter": "fadeSlideIn",
+          "exit": "fadeSlideOut"
+        }
+      }
+    },
+    {
+      "id": "cta-painting",
+      "type": "CTASection",
+      "animation": {
+        "type": "parallax",
+        "scrollSpeed": 0.6
+      },
+      "props": {
+        "layout": "centered",
+        "backgroundImage": "https://images.unsplash.com/photo-1562259949-e8e7689d7828",
+        "backgroundOverlay": "rgba(5, 150, 105, 0.85)",
+        "title": "Ready to Transform Your Space?",
+        "titleColor": "#FFFFFF",
+        "subtitle": "Get a free quote today",
+        "subtitleColor": "#FFFFFF",
+        "button": {
+          "text": "Contact Us on WhatsApp",
+          "backgroundColor": "#FFFFFF",
+          "textColor": "#059669",
+          "icon": "whatsapp",
+          "link": "https://wa.me/1234567890",
+          "animation": "pulse-glow"
+        }
+      }
+    },
+    {
+      "id": "footer-painting",
+      "type": "FooterSection",
+      "props": {
+        "backgroundColor": "#1F2937",
+        "textColor": "#9CA3AF",
+        "logo": {
+          "text": "PAT'S Painting Inc.",
+          "color": "#059669"
+        },
+        "sections": [
+          {
+            "title": "Services",
+            "links": [
+              { "text": "Interior Painting", "url": "#services" },
+              { "text": "Exterior Painting", "url": "#services" },
+              { "text": "Color Consultation", "url": "#services" }
+            ]
+          },
+          {
+            "title": "Contact",
+            "content": [
+              "Bayview Area",
+              "123-456-7890",
+              "info@patspainting.com"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "globalSettings": {
+    "whatsapp": {
+      "enabled": true,
+      "number": "1234567890",
+      "message": "Hi! I'd like to get a quote for painting services.",
+      "position": "bottom-right",
+      "animation": "bounce",
+      "backgroundColor": "#059669"
+    },
+    "colorScheme": {
+      "primary": "#059669",
+      "secondary": "#1E40AF",
+      "accent": "#10B981",
+      "background": "#FEF3E2",
+      "text": "#1F2937"
+    },
+    "fonts": {
+      "heading": "'Inter', sans-serif",
+      "body": "'Inter', sans-serif"
+    },
+    "animations": {
+      "pageTransition": "fade",
+      "defaultDuration": 0.8,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)"
+    }
+  }
+}
