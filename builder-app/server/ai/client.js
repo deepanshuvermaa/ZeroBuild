@@ -1,7 +1,7 @@
 /**
  * Provider-agnostic AI client.
- * Tries Gemini first (3 keys, round-robin), falls back to Groq (2 keys).
- * Both use the OpenAI-compatible API format — one SDK handles all.
+ * Tries ALL Gemini keys (round-robin start), then ALL Groq keys.
+ * Both use the OpenAI-compatible API format.
  */
 
 import OpenAI from 'openai';
@@ -21,20 +21,35 @@ function extractJSON(text) {
 }
 
 /**
- * Call AI with automatic provider fallback + key rotation.
- *
- * @param {object} opts
- * @param {string} opts.systemPrompt
- * @param {string} opts.userPrompt
- * @param {number} [opts.maxTokens=4096]
- * @param {boolean} [opts.json=false]  - parse response as JSON
- * @returns {Promise<string|object>}   - string if json=false, parsed object if json=true
+ * Sanitize AI output to prevent React rendering crashes (Error #31).
+ * Ensures all values that should be strings ARE strings.
+ */
+function sanitizeOutput(obj) {
+  if (obj === null || obj === undefined) return '';
+  if (typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(sanitizeOutput);
+  const clean = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (typeof value === 'object' && value !== null) {
+      clean[key] = sanitizeOutput(value);
+    } else if (value === undefined || value === null) {
+      clean[key] = '';
+    } else {
+      clean[key] = value;
+    }
+  }
+  return clean;
+}
+
+/**
+ * Call AI with automatic provider fallback + full key rotation.
+ * Tries ALL Gemini keys before falling back to ALL Groq keys.
  */
 export async function aiComplete({ systemPrompt, userPrompt, maxTokens = 4096, json = false }) {
   const errors = [];
 
-  // ── Try Gemini (3 keys, round-robin) ─────────────────────────────────
-  if (GEMINI_KEYS.length > 0) {
+  // ── Try ALL Gemini keys ──────────────────────────────────────────────
+  for (let i = 0; i < GEMINI_KEYS.length; i++) {
     const key = getGeminiKey();
     try {
       const client = new OpenAI({
@@ -53,16 +68,17 @@ export async function aiComplete({ systemPrompt, userPrompt, maxTokens = 4096, j
       });
 
       const text = res.choices[0].message.content;
-      return json ? extractJSON(text) : text;
+      const result = json ? extractJSON(text) : text;
+      return json ? sanitizeOutput(result) : result;
     } catch (err) {
       const msg = err?.message || String(err);
-      errors.push(`Gemini: ${msg}`);
-      console.warn(`[AI] Gemini failed (key rotated): ${msg}`);
+      errors.push(`Gemini[${i}]: ${msg}`);
+      console.warn(`[AI] Gemini key ${i + 1}/${GEMINI_KEYS.length} failed: ${msg}`);
     }
   }
 
-  // ── Fallback: Groq (2 keys, round-robin) ─────────────────────────────
-  if (GROQ_KEYS.length > 0) {
+  // ── Fallback: try ALL Groq keys ──────────────────────────────────────
+  for (let i = 0; i < GROQ_KEYS.length; i++) {
     const key = getGroqKey();
     try {
       const client = new OpenAI({
@@ -72,7 +88,7 @@ export async function aiComplete({ systemPrompt, userPrompt, maxTokens = 4096, j
 
       const res = await client.chat.completions.create({
         model: 'llama-3.3-70b-versatile',
-        max_tokens: Math.min(maxTokens, 8192), // Groq has lower token limits
+        max_tokens: Math.min(maxTokens, 8192),
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
@@ -81,12 +97,13 @@ export async function aiComplete({ systemPrompt, userPrompt, maxTokens = 4096, j
       });
 
       const text = res.choices[0].message.content;
-      console.log('[AI] Used Groq fallback');
-      return json ? extractJSON(text) : text;
+      console.log(`[AI] Used Groq fallback (key ${i + 1})`);
+      const result = json ? extractJSON(text) : text;
+      return json ? sanitizeOutput(result) : result;
     } catch (err) {
       const msg = err?.message || String(err);
-      errors.push(`Groq: ${msg}`);
-      console.warn(`[AI] Groq failed: ${msg}`);
+      errors.push(`Groq[${i}]: ${msg}`);
+      console.warn(`[AI] Groq key ${i + 1}/${GROQ_KEYS.length} failed: ${msg}`);
     }
   }
 

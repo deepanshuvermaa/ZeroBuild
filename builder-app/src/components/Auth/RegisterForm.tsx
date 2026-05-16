@@ -21,7 +21,19 @@ export const RegisterForm: React.FC = () => {
     setLocalError(null);
     if (password.length < 8) { setLocalError('Password must be at least 8 characters.'); return; }
     if (password !== confirmPassword) { setLocalError('Passwords do not match.'); return; }
-    try { await register(email, password, name); navigate('/dashboard'); } catch {}
+    try {
+      await register(email, password, name);
+      // Try to claim guest session if one exists
+      try {
+        const claimRes = await fetch('/api/ai/claim-session', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' } });
+        if (claimRes.ok) {
+          const { project } = await claimRes.json();
+          navigate(`/editor/${project.id}`);
+          return;
+        }
+      } catch {}
+      navigate('/dashboard');
+    } catch {}
   };
 
   const displayError = localError || error;

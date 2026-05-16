@@ -17,7 +17,19 @@ export const LoginForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try { await login(email, password); navigate('/dashboard'); } catch {}
+    try {
+      await login(email, password);
+      // Try to claim guest session
+      try {
+        const claimRes = await fetch('/api/ai/claim-session', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' } });
+        if (claimRes.ok) {
+          const { project } = await claimRes.json();
+          navigate(`/editor/${project.id}`);
+          return;
+        }
+      } catch {}
+      navigate('/dashboard');
+    } catch {}
   };
 
   return (

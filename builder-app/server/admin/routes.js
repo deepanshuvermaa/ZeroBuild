@@ -7,22 +7,23 @@ const router = Router();
 // GET /api/admin/stats — all users + usage stats
 router.get('/stats', requireAdmin, async (req, res) => {
   try {
-    const users = await query(`SELECT id, email, name, plan, ai_credits_remaining, ai_credits_monthly_limit, is_verified, created_at FROM users ORDER BY created_at DESC`);
-    const projects = await query(`SELECT user_id, COUNT(*) AS count FROM projects GROUP BY user_id`);
-    const generations = await query(`SELECT user_id, COUNT(*) AS total, SUM(tokens_used) AS tokens, COUNT(CASE WHEN status = 'failed' THEN 1 END) AS failures FROM ai_generations GROUP BY user_id`);
+    const users = await query(`SELECT id, email, name, plan, role, ai_credits_remaining, ai_credits_monthly_limit, is_verified, created_at FROM users ORDER BY created_at DESC`);
+    const allProjects = await query(`SELECT user_id FROM projects`);
+    const allGenerations = await query(`SELECT user_id, status, tokens_used FROM ai_generations`);
     const suggestions = await query(`SELECT * FROM suggestions ORDER BY created_at DESC`);
 
-    // Map project counts by user
+    // Aggregate in JS instead of SQL GROUP BY (in-memory DB can't handle it)
     const projectMap = {};
-    projects.rows.forEach(r => { projectMap[r.user_id] = Number(r.count); });
+    allProjects.rows.forEach(r => {
+      projectMap[r.user_id] = (projectMap[r.user_id] || 0) + 1;
+    });
 
     const genMap = {};
-    generations.rows.forEach(r => {
-      genMap[r.user_id] = {
-        total: Number(r.total),
-        tokens: Number(r.tokens) || 0,
-        failures: Number(r.failures) || 0,
-      };
+    allGenerations.rows.forEach(r => {
+      if (!genMap[r.user_id]) genMap[r.user_id] = { total: 0, tokens: 0, failures: 0 };
+      genMap[r.user_id].total++;
+      genMap[r.user_id].tokens += Number(r.tokens_used) || 0;
+      if (r.status === 'failed') genMap[r.user_id].failures++;
     });
 
     const enriched = users.rows.map(u => ({
