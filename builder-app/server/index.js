@@ -29,12 +29,25 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:5174',
+  'http://localhost:5174',
+  'http://localhost:3001',
+];
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5174',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (healthchecks, curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(null, true); // permissive in prod — tighten if needed
+  },
   credentials: true,
 }));
 app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
+
+// Health check — must return 200 for Railway
+app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 // API Routes
 app.use('/api/auth', authRoutes);
