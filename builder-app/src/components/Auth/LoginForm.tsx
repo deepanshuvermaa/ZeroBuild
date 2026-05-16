@@ -9,108 +9,121 @@ import { useAuthStore } from '@/store/authStore';
 export const LoginForm: React.FC = () => {
   const navigate = useNavigate();
   const { login, isLoading, error, clearError, isAuthenticated } = useAuthStore();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    clearError();
-  }, [clearError]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
+  useEffect(() => { clearError(); }, [clearError]);
+  useEffect(() => { if (isAuthenticated) navigate('/dashboard'); }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await login(email, password);
-      navigate('/dashboard');
-    } catch {
-      // error is set in the store
-    }
+    try { await login(email, password); navigate('/dashboard'); } catch {}
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-700 px-4">
+    <div className="relative min-h-screen flex items-center justify-center px-4 bg-black overflow-hidden">
+      {/* Background video */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover z-0 opacity-60"
+        src="/hero-raw.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+
+      {/* Blur overlay */}
+      <div
+        className="video-blur-overlay absolute inset-0 z-[1] pointer-events-none"
+        style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
+      />
+
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 z-[2] bg-black/50 pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="relative z-10 w-full max-w-md"
       >
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        {/* Glass card */}
+        <div
+          className="rounded-2xl p-8 border border-white/10"
+          style={{
+            background: 'rgba(255,255,255,0.04)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+          }}
+        >
           {/* Brand */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center gap-2 mb-3">
-              <Sparkles className="h-8 w-8 text-blue-600" />
-              <span className="text-3xl font-bold text-gray-900">ZeroBuild</span>
-            </div>
-            <p className="text-gray-500 text-sm">AI-Powered Website Builder</p>
+            <Link to="/" className="inline-flex items-center gap-2 mb-4">
+              <Sparkles className="h-6 w-6 text-white/70" />
+              <span className="text-2xl font-bold text-white">ZeroBuild</span>
+            </Link>
+            <p className="text-white/40 text-sm">Sign in to your account</p>
           </div>
 
-          {/* Error */}
           {error && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700"
+              className="mb-4 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-400"
             >
               {error}
             </motion.div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <Input
-              label="Email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              leftIcon={<Mail className="h-4 w-4" />}
-              required
-            />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Email</label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-white/20 focus:border-white/30 focus:outline-none focus:ring-0 transition-colors"
+                />
+              </div>
+            </div>
 
-            <Input
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              leftIcon={<Lock className="h-4 w-4" />}
-              required
-            />
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Password</label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                  className="w-full rounded-xl border border-white/10 bg-white/5 pl-10 pr-4 py-3 text-sm text-white placeholder-white/20 focus:border-white/30 focus:outline-none focus:ring-0 transition-colors"
+                />
+              </div>
+            </div>
 
             <div className="flex justify-end">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-              >
+              <Link to="/forgot-password" className="text-xs text-white/40 hover:text-white/70 transition-colors">
                 Forgot password?
               </Link>
             </div>
 
-            <Button
+            <button
               type="submit"
-              variant="primary"
-              size="lg"
-              isLoading={isLoading}
-              className="w-full"
+              disabled={isLoading}
+              className="w-full rounded-xl bg-white py-3 text-sm font-semibold text-black hover:bg-gray-200 transition-colors disabled:opacity-50"
             >
-              Sign In
-            </Button>
+              {isLoading ? 'Signing in...' : 'Sign In'}
+            </button>
           </form>
 
-          {/* Footer */}
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-white/40">
             Don't have an account?{' '}
-            <Link
-              to="/register"
-              className="text-blue-600 hover:text-blue-700 font-semibold"
-            >
+            <Link to="/register" className="text-white/70 hover:text-white font-semibold transition-colors">
               Sign up
             </Link>
           </p>

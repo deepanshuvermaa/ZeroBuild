@@ -1,221 +1,226 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MousePointerClick, Wand2, Layers } from 'lucide-react';
+import {
+  Search,
+  User,
+  Menu,
+  X,
+  Play,
+  Star,
+  Clock,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+} from 'lucide-react';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.15, duration: 0.6, ease: 'easeOut' },
-  }),
-};
-
-const floatingElements = [
-  { top: '12%', left: '8%', size: 58, delay: 0, char: '<Hero />' },
-  { top: '22%', right: '9%', size: 52, delay: 1.2, char: '<CTA />' },
-  { top: '55%', left: '5%', size: 48, delay: 0.8, char: '<FAQ />' },
-  { top: '65%', right: '7%', size: 54, delay: 2, char: '<Nav />' },
-  { top: '38%', left: '11%', size: 42, delay: 1.5, char: '{ ai }' },
-  { top: '75%', right: '14%', size: 38, delay: 0.5, char: 'drag' },
-];
-
-const pills = [
-  { icon: Wand2, label: 'One prompt' },
-  { icon: Layers, label: 'Full website generated' },
-  { icon: MousePointerClick, label: 'Edit every section' },
+const navLinks = [
+  { label: 'Features', href: '#features' },
+  { label: 'How It Works', href: '#howitworks' },
+  { label: 'Pricing', href: '#pricing' },
+  { label: 'Testimonials', href: '#testimonials' },
+  { label: 'Get Started', href: '/register' },
 ];
 
 export default function HeroLanding() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 pt-16">
-      {/* Floating decorative elements */}
-      {floatingElements.map((el, i) => (
-        <motion.div
-          key={i}
-          className="absolute hidden md:flex items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white/20 font-mono text-xs select-none pointer-events-none px-2"
-          style={{ top: el.top, left: el.left, right: el.right, height: el.size }}
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 4, repeat: Infinity, delay: el.delay, ease: 'easeInOut' }}
-        >
-          {el.char}
-        </motion.div>
-      ))}
+    <section className="relative w-full h-screen bg-black overflow-hidden flex flex-col">
 
-      {/* Radial glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none" />
+      {/* ── Background Video ── */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="/hero-raw.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <motion.div
-          custom={0}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="inline-flex items-center gap-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 px-4 py-1.5 text-sm text-indigo-300 mb-8 shadow-[0_0_20px_rgba(99,102,241,0.15)]"
-        >
-          <span className="h-2 w-2 rounded-full bg-indigo-400 animate-pulse" />
-          AI Website Builder
-        </motion.div>
+      {/* ── Bottom blur overlay (no gradient darkening, only blur) ── */}
+      <div
+        className="video-blur-overlay absolute inset-0 z-[1] pointer-events-none"
+        style={{ backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
+      />
 
-        {/* Heading */}
-        <motion.h1
-          custom={1}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight"
-        >
-          One Prompt.
-          <br />
-          <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-            A Complete Website.
-          </span>
-        </motion.h1>
+      {/* ── Subtle dark vignette at top for navbar readability ── */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/60 to-transparent z-[2] pointer-events-none" />
 
-        {/* Subheading */}
-        <motion.p
-          custom={2}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mx-auto mt-6 max-w-2xl text-lg sm:text-xl text-slate-400 leading-relaxed"
+      {/* ── Navbar ── */}
+      <nav className="relative z-50 flex items-center justify-between px-4 sm:px-6 md:px-12 py-4 md:py-6">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 animate-blur-fade-up"
+          style={{ animationDelay: '0ms' }}
         >
-          Type what your business does. ZeroBuild's AI generates every section — hero, features, pricing, FAQ, footer — fully styled and ready to go. Then drag, drop, and edit each section your way.
-        </motion.p>
+          <Sparkles className="h-5 w-5 text-white" />
+          <span className="text-xl font-bold tracking-tight text-white">ZeroBuild</span>
+        </Link>
 
-        {/* How it works pills */}
-        <motion.div
-          custom={3}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
-        >
-          {pills.map((pill, i) => (
-            <div key={pill.label} className="flex items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/8 border border-white/10 px-4 py-2 text-sm text-slate-300">
-                <pill.icon className="h-4 w-4 text-indigo-400" />
-                {pill.label}
-              </div>
-              {i < pills.length - 1 && (
-                <ArrowRight className="h-4 w-4 text-slate-600 hidden sm:block" />
-              )}
-            </div>
+        {/* Desktop nav links */}
+        <div className="hidden lg:flex items-center gap-8">
+          {navLinks.map((link, i) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="animate-blur-fade-up text-sm text-white/80 hover:text-white transition-colors"
+              style={{ animationDelay: `${100 + i * 50}ms` }}
+            >
+              {link.label}
+            </a>
           ))}
-        </motion.div>
+        </div>
 
-        {/* CTAs */}
-        <motion.div
-          custom={4}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <Link
-            to="/register"
-            className="group inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-700 hover:shadow-indigo-600/40 transition-all"
+        {/* Desktop right buttons */}
+        <div className="hidden sm:flex items-center gap-3">
+          <button
+            className="animate-blur-fade-up liquid-glass flex items-center gap-2 rounded-full px-4 md:px-6 py-2 text-sm font-medium text-white"
+            style={{ animationDelay: '350ms' }}
           >
-            Build Your Site Free
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+            <Search size={16} />
+            Search
+          </button>
           <Link
             to="/login"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-8 py-3.5 text-base font-semibold text-white hover:bg-white/10 transition-all"
+            className="animate-blur-fade-up liquid-glass flex items-center justify-center w-10 h-10 rounded-full"
+            style={{ animationDelay: '400ms' }}
           >
-            Sign In
+            <User size={18} className="text-white" />
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.p
-          custom={5}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-5 text-sm text-slate-500"
+        {/* Hamburger — below lg */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="animate-blur-fade-up liquid-glass lg:hidden flex items-center justify-center w-10 h-10 rounded-full"
+          style={{ animationDelay: '350ms' }}
         >
-          Free to start — no credit card required
-        </motion.p>
+          <span className={`transition-all duration-500 ease-out ${mobileOpen ? 'rotate-180 opacity-0 scale-50 absolute' : 'rotate-0 opacity-100 scale-100'}`}>
+            <Menu size={18} className="text-white" />
+          </span>
+          <span className={`transition-all duration-500 ease-out ${mobileOpen ? 'rotate-0 opacity-100 scale-100' : '-rotate-180 opacity-0 scale-50 absolute'}`}>
+            <X size={18} className="text-white" />
+          </span>
+        </button>
+      </nav>
 
-        {/* Browser Mockup */}
-        <motion.div
-          custom={6}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mx-auto mt-14 max-w-3xl"
-        >
-          <div className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-2xl overflow-hidden">
-            {/* Title bar */}
-            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-              <div className="flex gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-red-400/80" />
-                <span className="h-3 w-3 rounded-full bg-yellow-400/80" />
-                <span className="h-3 w-3 rounded-full bg-green-400/80" />
-              </div>
-              <div className="flex-1 flex justify-center">
-                <div className="rounded-md bg-white/10 px-4 py-1 text-xs text-slate-400 font-mono">
-                  zerobuild.app/editor
-                </div>
-              </div>
+      {/* ── Mobile menu ── */}
+      <div
+        className={`absolute top-[72px] left-0 right-0 z-40 lg:hidden transition-all duration-500 ease-out
+          ${mobileOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
+      >
+        <div className="bg-gray-900/95 backdrop-blur-lg border-t border-b border-gray-800 shadow-2xl">
+          <div className="flex flex-col px-4 py-4 gap-1">
+            {navLinks.map((link, i) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="py-3 px-3 rounded-lg text-sm text-white hover:bg-gray-800/50 transition-all"
+                style={{
+                  transform: mobileOpen ? 'translateX(0)' : 'translateX(-12px)',
+                  transitionDelay: `${i * 50}ms`,
+                  opacity: mobileOpen ? 1 : 0,
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 px-7 py-4 border-t border-gray-800 sm:hidden">
+            <button className="liquid-glass flex items-center gap-2 rounded-full px-5 py-2 text-sm text-white">
+              <Search size={16} /> Search
+            </button>
+            <Link to="/login" className="liquid-glass flex items-center justify-center w-10 h-10 rounded-full">
+              <User size={18} className="text-white" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Hero Content ── */}
+      <div className="relative z-10 flex-1 flex flex-col justify-end px-4 sm:px-6 md:px-12 pb-8 md:pb-16">
+        <div className="flex flex-col md:flex-row items-end gap-8">
+
+          {/* Left — text content */}
+          <div className="flex-1">
+            {/* Metadata row */}
+            <div
+              className="animate-blur-fade-up flex flex-wrap items-center gap-3 sm:gap-6 mb-6 md:mb-8 text-xs sm:text-sm text-white/80"
+              style={{ animationDelay: '300ms' }}
+            >
+              <span className="flex items-center gap-1.5">
+                <Star size={14} className="fill-white text-white sm:w-5 sm:h-5" />
+                <span className="font-medium">AI-Powered</span>
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock size={14} className="sm:w-5 sm:h-5" />
+                Under 60s
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Calendar size={14} className="sm:w-5 sm:h-5" />
+                19 Section Types
+              </span>
             </div>
-            {/* Prompt bar */}
-            <div className="border-b border-white/10 px-6 py-3 flex items-center gap-3">
-              <div className="flex-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 px-4 py-2 text-xs text-indigo-300 text-left font-mono">
-                "Modern SaaS landing page for a pharmacy billing software"
-              </div>
-              <div className="rounded-lg bg-indigo-600 px-3 py-2 text-xs text-white font-semibold whitespace-nowrap">
-                Generate
-              </div>
-            </div>
-            {/* Fake website content */}
-            <div className="p-6 sm:p-8 space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-24 rounded bg-indigo-500/30" />
-                <div className="h-5 w-16 rounded bg-green-500/20" />
-              </div>
-              <div className="h-8 w-3/4 rounded bg-white/10" />
-              <div className="h-4 w-full rounded bg-white/5" />
-              <div className="h-4 w-5/6 rounded bg-white/5" />
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="h-20 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-                  <div className="h-3 w-12 rounded bg-indigo-400/30" />
-                </div>
-                <div className="h-20 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                  <div className="h-3 w-12 rounded bg-purple-400/30" />
-                </div>
-                <div className="h-20 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
-                  <div className="h-3 w-12 rounded bg-pink-400/30" />
-                </div>
-              </div>
-              <div className="flex gap-3 pt-1">
-                <div className="h-8 w-28 rounded-md bg-indigo-600/50" />
-                <div className="h-8 w-28 rounded-md bg-white/10" />
-              </div>
+
+            {/* Title */}
+            <h1
+              className="animate-blur-fade-up text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-normal text-white mb-4 md:mb-6"
+              style={{ animationDelay: '400ms', letterSpacing: '-0.04em' }}
+            >
+              One Prompt.
+              <br />
+              Full Website.
+            </h1>
+
+            {/* Description */}
+            <p
+              className="animate-blur-fade-up text-base sm:text-lg md:text-xl text-gray-400 mb-6 md:mb-12 max-w-2xl"
+              style={{ animationDelay: '500ms' }}
+            >
+              Type what your business does. ZeroBuild generates every section — styled, structured, ready to edit. Drag, tweak, deploy.
+            </p>
+
+            {/* CTA buttons */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <Link
+                to="/register"
+                className="animate-blur-fade-up flex items-center gap-2 rounded-full bg-white text-black font-medium px-6 sm:px-8 py-2.5 sm:py-3 hover:bg-gray-200 transition-colors"
+                style={{ animationDelay: '600ms' }}
+              >
+                <Play size={18} className="fill-black" />
+                Start Building
+              </Link>
+              <Link
+                to="/login"
+                className="animate-blur-fade-up liquid-glass rounded-full font-medium px-6 sm:px-8 py-2.5 sm:py-3 text-white"
+                style={{ animationDelay: '700ms' }}
+              >
+                Sign In
+              </Link>
             </div>
           </div>
-        </motion.div>
 
-        {/* Stats Row */}
-        <motion.div
-          custom={7}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-12 mb-16 flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-16"
-        >
-          {[
-            { value: '19', label: 'Section Types' },
-            { value: '<60s', label: 'Generation Time' },
-            { value: '100%', label: 'Edit Control' },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl font-bold text-white">{stat.value}</p>
-              <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
-            </div>
-          ))}
-        </motion.div>
+          {/* Right — navigation arrows */}
+          <div className="flex items-center gap-3 md:flex-col md:items-end">
+            <button
+              className="animate-blur-fade-up liquid-glass flex items-center gap-2 rounded-full px-4 sm:px-6 py-2.5 sm:py-3 text-white text-sm"
+              style={{ animationDelay: '800ms' }}
+            >
+              <ChevronLeft size={18} />
+              Previous
+            </button>
+            <button
+              className="animate-blur-fade-up liquid-glass flex items-center gap-2 rounded-full px-4 sm:px-6 py-2.5 sm:py-3 text-white text-sm"
+              style={{ animationDelay: '900ms' }}
+            >
+              Next
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

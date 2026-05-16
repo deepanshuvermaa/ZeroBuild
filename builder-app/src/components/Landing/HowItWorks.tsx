@@ -1,28 +1,30 @@
 import { motion } from 'framer-motion';
 import { MessageSquareText, MousePointerClick, Rocket } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const steps = [
   {
-    num: 1,
+    num: '01',
     icon: MessageSquareText,
     title: 'Type Your Prompt',
-    description:
-      'Describe your business in plain English. "A modern landing page for a dental clinic with pricing and testimonials." That\'s it.',
+    description: 'Describe your business in plain English. "A landing page for a dental clinic with pricing and testimonials." That\'s it.',
+    color: 'text-indigo-400',
+    border: 'border-indigo-500/20',
   },
   {
-    num: 2,
+    num: '02',
     icon: MousePointerClick,
     title: 'Edit Every Section',
-    description:
-      'Your full website appears instantly. Drag sections to reorder, click to edit text, swap colors, upload images — each section is fully customizable.',
+    description: 'Your full website appears instantly. Drag sections, click to edit text, swap colors, upload images — each section is yours.',
+    color: 'text-purple-400',
+    border: 'border-purple-500/20',
   },
   {
-    num: 3,
+    num: '03',
     icon: Rocket,
     title: 'Deploy in One Click',
-    description:
-      'Push live to Railway or upload to cPanel. Your site goes from prompt to published without touching a single line of code.',
+    description: 'Push live to Railway or upload to cPanel. Prompt to published without a single line of code.',
+    color: 'text-pink-400',
+    border: 'border-pink-500/20',
   },
 ];
 
@@ -37,9 +39,8 @@ const stepVariant = {
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 bg-white">
+    <section id="howitworks" className="py-24 bg-gray-950">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -47,19 +48,16 @@ export default function HowItWorks() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+          <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-4">The Flow</p>
+          <h2 className="text-3xl sm:text-4xl font-light text-white tracking-tight" style={{ letterSpacing: '-0.03em' }}>
             Prompt. Edit. Deploy.
           </h2>
-          <p className="mt-4 text-lg text-slate-600 max-w-xl mx-auto">
-            The entire flow from idea to live website takes under 2 minutes.
+          <p className="mt-4 text-base text-white/50 max-w-lg mx-auto">
+            Idea to live website in under 2 minutes.
           </p>
         </motion.div>
 
-        {/* Steps */}
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-          {/* Connector line — desktop only */}
-          <div className="hidden md:block absolute top-16 left-[20%] right-[20%] border-t-2 border-dashed border-slate-200 pointer-events-none" />
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
@@ -68,45 +66,30 @@ export default function HowItWorks() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
-              className="relative flex flex-col items-center text-center"
+              className={`relative rounded-2xl border ${step.border} bg-white/[0.02] p-8`}
             >
-              {/* Number circle */}
-              <div className="relative z-10 flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 text-white text-xl font-bold shadow-lg shadow-indigo-600/20 mb-6">
-                {step.num}
+              <div className="flex items-start justify-between mb-6">
+                <span className="text-4xl font-light text-white/10 tabular-nums">{step.num}</span>
+                <step.icon className={`h-5 w-5 ${step.color}`} />
               </div>
-
-              {/* Icon */}
-              <div className="mb-4 inline-flex items-center justify-center h-12 w-12 rounded-lg bg-indigo-50">
-                <step.icon className="h-6 w-6 text-indigo-600" />
-              </div>
-
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                {step.title}
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed max-w-xs">
-                {step.description}
-              </p>
+              <h3 className="text-lg font-semibold text-white mb-3">{step.title}</h3>
+              <p className="text-sm text-white/50 leading-relaxed">{step.description}</p>
             </motion.div>
           ))}
         </div>
 
-        {/* Section types callout */}
+        {/* Section types */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-20 rounded-2xl bg-slate-50 border border-slate-200 p-8 text-center"
+          className="mt-14 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center"
         >
-          <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wider mb-3">
-            19 Section Types — All Editable
-          </p>
+          <p className="text-xs font-semibold tracking-widest text-white/40 uppercase mb-5">19 Section Types — All Editable</p>
           <div className="flex flex-wrap justify-center gap-2">
             {['Hero', 'About', 'Features', 'Services', 'Pricing', 'FAQ', 'Testimonials', 'Gallery', 'Stats', 'CTA', 'Cards', 'Timeline', 'Menu', 'Job Board', 'Profiles', 'Categories', 'Offers', 'WhatsApp', 'Footer'].map((s) => (
-              <span
-                key={s}
-                className="rounded-full bg-white border border-slate-200 px-3 py-1 text-xs text-slate-600 shadow-sm"
-              >
+              <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/60">
                 {s}
               </span>
             ))}

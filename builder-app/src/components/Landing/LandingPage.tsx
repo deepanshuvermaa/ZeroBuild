@@ -1,4 +1,3 @@
-import NavBar from './NavBar';
 import HeroLanding from './HeroLanding';
 import FeaturesLanding from './FeaturesLanding';
 import HowItWorks from './HowItWorks';
@@ -9,8 +8,7 @@ import FooterLanding from './FooterLanding';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
-      <NavBar />
+    <div className="bg-black min-h-screen">
       <HeroLanding />
       <FeaturesLanding />
       <HowItWorks />
