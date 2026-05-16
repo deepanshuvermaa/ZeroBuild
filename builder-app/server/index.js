@@ -13,6 +13,8 @@ import projectRoutes from './projects/routes.js';
 import aiRoutes from './ai/routes.js';
 import deployRoutes from './deploy/routes.js';
 import assetRoutes from './assets/routes.js';
+import suggestionRoutes from './suggestions/routes.js';
+import adminRoutes from './admin/routes.js';
 
 dotenv.config({ path: new URL('./.env', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1') });
 // Fallback: also try loading from the server directory directly
@@ -55,6 +57,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/deploy', deployRoutes);
 app.use('/api/assets', assetRoutes);
+app.use('/api/suggestions', suggestionRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static(join(__dirname, 'uploads')));

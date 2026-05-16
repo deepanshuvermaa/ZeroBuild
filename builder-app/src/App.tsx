@@ -25,6 +25,7 @@ import {
 } from '@dnd-kit/sortable';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBuilderStore } from '@/store/builderStore';
+import SuggestionWidget from '@/components/SuggestionWidget';
 import { useHistoryStore } from '@/store/historyStore';
 import { useAuthStore } from '@/store/authStore';
 import { getDefaultProps } from '@/utils/componentDefinitions';
@@ -42,6 +43,7 @@ const RegisterForm = React.lazy(() => import('@/components/Auth/RegisterForm'));
 const ForgotPassword = React.lazy(() => import('@/components/Auth/ForgotPassword'));
 const ProjectList = React.lazy(() => import('@/components/Dashboard/ProjectList'));
 const Settings = React.lazy(() => import('@/components/Dashboard/Settings'));
+const AdminDashboard = React.lazy(() => import('@/components/Admin/AdminDashboard'));
 
 // Loading fallback
 function LoadingScreen() {
@@ -61,6 +63,17 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 
   if (isLoading) return <LoadingScreen />;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  return <>{children}</>;
+}
+
+// Admin route wrapper
+function RequireAdmin({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading, user } = useAuthStore();
+
+  if (isLoading) return <LoadingScreen />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user?.role !== 'admin') return <Navigate to="/dashboard" replace />;
 
   return <>{children}</>;
 }
@@ -440,6 +453,8 @@ function AppContent() {
   }, []);
 
   return (
+    <>
+    <SuggestionWidget />
     <React.Suspense fallback={<LoadingScreen />}>
       <Routes>
         {/* Public routes */}
@@ -453,6 +468,9 @@ function AppContent() {
         <Route path="/settings" element={<RequireAuth><Settings /></RequireAuth>} />
         <Route path="/editor/:projectId" element={<RequireAuth><EditorPage /></RequireAuth>} />
 
+        {/* Admin routes */}
+        <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+
         {/* Standalone editor (backward compat — no auth required) */}
         <Route path="/standalone" element={<StandaloneEditor />} />
 
@@ -460,6 +478,7 @@ function AppContent() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </React.Suspense>
+    </>
   );
 }
 

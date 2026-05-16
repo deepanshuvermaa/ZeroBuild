@@ -3,7 +3,8 @@ export interface User {
   email: string;
   name: string;
   avatar_url: string | null;
-  plan: 'free' | 'starter' | 'pro' | 'enterprise';
+  plan: 'free' | 'starter' | 'pro' | 'enterprise' | 'agency';
+  role: 'user' | 'admin';
   ai_credits_remaining: number;
   ai_credits_monthly_limit: number;
   created_at: string;

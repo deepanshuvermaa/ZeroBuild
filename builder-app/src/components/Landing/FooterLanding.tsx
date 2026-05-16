@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Mail, Linkedin, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const columns = [
@@ -9,7 +9,7 @@ const columns = [
 
 export default function FooterLanding() {
   return (
-    <footer className="bg-gray-950 border-t border-white/5">
+    <footer id="footer" className="bg-gray-950 border-t border-white/5">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2 md:col-span-1">
@@ -20,16 +20,22 @@ export default function FooterLanding() {
             <p className="text-sm text-white/40 leading-relaxed mb-6">
               One prompt. A complete website. Edit every section your way.
             </p>
-            <div className="flex gap-3">
-              {['X', 'GH', 'LI'].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  className="flex items-center justify-center h-8 w-8 rounded-lg border border-white/10 bg-white/5 text-xs font-medium text-white/40 hover:text-white hover:border-white/20 transition-colors"
-                >
-                  {s}
-                </a>
-              ))}
+
+            {/* Creator links */}
+            <div className="space-y-2">
+              <p className="text-xs text-white/25 uppercase tracking-widest font-semibold mb-3">Built by</p>
+              <a href="https://deepanshuverma.site" target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors">
+                <Globe className="h-3.5 w-3.5" />deepanshuverma.site
+              </a>
+              <a href="https://www.linkedin.com/in/deepanshu-verma-238080200/" target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors">
+                <Linkedin className="h-3.5 w-3.5" />Deepanshu Verma
+              </a>
+              <a href="mailto:deepanshuverma966@gmail.com"
+                className="flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors">
+                <Mail className="h-3.5 w-3.5" />deepanshuverma966@gmail.com
+              </a>
             </div>
           </div>
 
@@ -39,9 +45,7 @@ export default function FooterLanding() {
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">
-                      {link}
-                    </a>
+                    <a href="#" className="text-sm text-white/50 hover:text-white transition-colors">{link}</a>
                   </li>
                 ))}
               </ul>
@@ -53,7 +57,10 @@ export default function FooterLanding() {
       <div className="border-t border-white/5">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/30">
           <p>2026 ZeroBuild. All rights reserved.</p>
-          <p>Built with ZeroBuild</p>
+          <a href="https://deepanshuverma.site" target="_blank" rel="noopener noreferrer"
+            className="hover:text-white transition-colors">
+            deepanshuverma.site
+          </a>
         </div>
       </div>
     </footer>

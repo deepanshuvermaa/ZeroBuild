@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#000"/>
+  <!-- Sparkle / Z combined mark -->
+  <!-- Z letter path -->
+  <path d="M7 8h18l-13 16h13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small sparkle dot top-right -->
+  <circle cx="26" cy="6" r="1.5" fill="white" opacity="0.7"/>
+  <!-- Small sparkle dot bottom-left -->
+  <circle cx="6" cy="26" r="1" fill="white" opacity="0.4"/>
+</svg>

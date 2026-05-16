@@ -8,7 +8,20 @@ export function requireAuth(req, res, next) {
     }
 
     const decoded = verifyToken(token);
-    req.user = { id: decoded.id, email: decoded.email, plan: decoded.plan };
+    req.user = { id: decoded.id, email: decoded.email, plan: decoded.plan, role: decoded.role || 'user' };
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
+}
+
+export function requireAdmin(req, res, next) {
+  try {
+    const token = req.cookies?.token;
+    if (!token) return res.status(401).json({ error: 'Authentication required' });
+    const decoded = verifyToken(token);
+    req.user = { id: decoded.id, email: decoded.email, plan: decoded.plan, role: decoded.role || 'user' };
+    if (req.user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
     next();
   } catch (error) {
     return res.status(401).json({ error: 'Invalid or expired token' });
@@ -20,7 +33,7 @@ export function optionalAuth(req, res, next) {
     const token = req.cookies?.token;
     if (token) {
       const decoded = verifyToken(token);
-      req.user = { id: decoded.id, email: decoded.email, plan: decoded.plan };
+      req.user = { id: decoded.id, email: decoded.email, plan: decoded.plan, role: decoded.role || 'user' };
     } else {
       req.user = null;
     }

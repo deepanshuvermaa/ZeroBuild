@@ -16,6 +16,7 @@ const tables = {
   deployments: [],
   ai_generations: [],
   assets: [],
+  suggestions: [],
 };
 
 // ─── SQL parser / executor ───────────────────────────────────────────
@@ -345,18 +346,32 @@ export async function initDatabase() {
       updated_at: new Date().toISOString(),
     };
     tables.projects.push(sampleProject);
+    console.log('  Demo user: demo@zerobuild.com / password123');
+  }
 
-    console.log('');
-    console.log('  ╔══════════════════════════════════════════════════╗');
-    console.log('  ║  IN-MEMORY DATABASE — Demo Mode                 ║');
-    console.log('  ║                                                  ║');
-    console.log('  ║  Login:    demo@zerobuild.com                   ║');
-    console.log('  ║  Password: password123                          ║');
-    console.log('  ║                                                  ║');
-    console.log('  ║  Data resets on server restart.                  ║');
-    console.log('  ║  Connect PostgreSQL for persistence.             ║');
-    console.log('  ╚══════════════════════════════════════════════════╝');
-    console.log('');
+  // Admin user: deepanshuverma966@gmail.com
+  const existingAdmin = tables.users.find(u => u.email === 'deepanshuverma966@gmail.com');
+  if (!existingAdmin) {
+    const adminHash = await bcrypt.hash('Dv12062001@', 12);
+    tables.users.push({
+      id: 'admin-deepanshu-verma-000000000001',
+      email: 'deepanshuverma966@gmail.com',
+      password_hash: adminHash,
+      name: 'Deepanshu Verma',
+      avatar_url: null,
+      plan: 'agency',
+      role: 'admin',
+      ai_credits_remaining: 9999,
+      ai_credits_monthly_limit: 9999,
+      credits_reset_at: null,
+      is_verified: true,
+      verification_token: null,
+      reset_token: null,
+      reset_token_expires: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    });
+    console.log('  Admin user: deepanshuverma966@gmail.com / Dv12062001@');
   }
 
   console.log('In-memory database initialized');
