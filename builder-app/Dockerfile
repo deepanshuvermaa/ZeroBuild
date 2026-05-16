@@ -5,14 +5,17 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --omit=dev
+# Install ALL dependencies (including devDeps needed for vite build)
+RUN npm ci
 
 # Copy source
 COPY . .
 
 # Build frontend
 RUN npm run build
+
+# Prune devDependencies after build
+RUN npm prune --omit=dev
 
 # Create uploads directory
 RUN mkdir -p server/uploads
