@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom';
 import { useBuilderStore } from '@/store/builderStore';
 import { useAuthStore } from '@/store/authStore';
+import { useThemeStore } from '@/store/themeStore';
 import SuggestionWidget from '@/components/SuggestionWidget';
 
 const LandingPage = React.lazy(() => import('@/components/Landing/LandingPage'));
@@ -13,6 +14,7 @@ const Settings = React.lazy(() => import('@/components/Dashboard/Settings'));
 const AdminDashboard = React.lazy(() => import('@/components/Admin/AdminDashboard'));
 const BuilderChat = React.lazy(() => import('@/components/Builder/BuilderChat'));
 const PreviewCanvas = React.lazy(() => import('@/components/Builder/PreviewCanvas'));
+const ThemePicker = React.lazy(() => import('@/components/Builder/ThemePicker'));
 const ProfessionalCodeEditor = React.lazy(() => import('@/components/Builder/CodeEditor/ProfessionalCodeEditor').then(m => ({ default: m.ProfessionalCodeEditor })));
 
 function LoadingScreen() {
@@ -45,6 +47,7 @@ function EditorPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { loadFromServer, setProjectId, config, setPreviewMode, previewMode } = useBuilderStore();
+  const { mode, toggle } = useThemeStore();
   const [isLoading, setIsLoading] = React.useState(true);
   const [editorMode, setEditorMode] = React.useState<'visual' | 'code'>('visual');
   const [loadError, setLoadError] = React.useState<string | null>(null);
@@ -82,57 +85,66 @@ function EditorPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-[#050505]">
+    <div className={`h-screen flex flex-col ${mode === 'dark' ? 'bg-[#050505]' : 'bg-gray-50'}`}>
       {/* Glass navbar */}
-      <nav className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.08] bg-black/60 backdrop-blur-xl z-50">
+      <nav className={`flex items-center justify-between px-4 py-2.5 border-b z-50 ${mode === 'dark' ? 'border-white/[0.08] bg-black/60 backdrop-blur-xl' : 'border-gray-200 bg-white/80 backdrop-blur-xl'}`}>
         <div className="flex items-center gap-3">
-          <a href="/dashboard" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+          <a href="/dashboard" className={`flex items-center gap-2 transition-colors ${mode === 'dark' ? 'text-white/80 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
             <span className="text-sm font-medium">ZeroBuild</span>
           </a>
-          <span className="text-white/20">·</span>
-          <span className="text-sm text-white/50 truncate max-w-[200px]">{config.metadata.projectName || 'Untitled'}</span>
+          <span className={mode === 'dark' ? 'text-white/20' : 'text-gray-300'}>·</span>
+          <span className={`text-sm truncate max-w-[200px] ${mode === 'dark' ? 'text-white/50' : 'text-gray-500'}`}>{config.metadata.projectName || 'Untitled'}</span>
         </div>
 
         {/* Center: responsive + code toggle */}
-        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.08] rounded-lg p-0.5">
+        <div className={`flex items-center gap-1 border rounded-lg p-0.5 ${mode === 'dark' ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-gray-100 border-gray-200'}`}>
           {([
-            { mode: 'desktop' as const, label: 'Desktop', icon: '🖥' },
-            { mode: 'tablet' as const, label: 'Tablet', icon: '📱' },
-            { mode: 'mobile' as const, label: 'Mobile', icon: '📲' },
-          ]).map(({ mode, label, icon }) => (
+            { m: 'desktop' as const, label: 'Desktop', icon: '🖥' },
+            { m: 'tablet' as const, label: 'Tablet', icon: '📱' },
+            { m: 'mobile' as const, label: 'Mobile', icon: '📲' },
+          ]).map(({ m, label, icon }) => (
             <button
-              key={mode}
-              onClick={() => { setPreviewMode(mode); setEditorMode('visual'); }}
+              key={m}
+              onClick={() => { setPreviewMode(m); setEditorMode('visual'); }}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs transition-colors ${
-                previewMode === mode && editorMode === 'visual' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70'
+                previewMode === m && editorMode === 'visual'
+                  ? (mode === 'dark' ? 'bg-white/10 text-white' : 'bg-white text-gray-900 shadow-sm')
+                  : (mode === 'dark' ? 'text-white/40 hover:text-white/70' : 'text-gray-500 hover:text-gray-700')
               }`}
             >
               <span>{icon}</span>
               <span className="hidden sm:inline">{label}</span>
             </button>
           ))}
-          <div className="w-px h-4 bg-white/10 mx-1" />
+          <div className={`w-px h-4 mx-1 ${mode === 'dark' ? 'bg-white/10' : 'bg-gray-300'}`} />
           <button
             onClick={() => setEditorMode(editorMode === 'code' ? 'visual' : 'code')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs transition-colors ${
-              editorMode === 'code' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70'
+              editorMode === 'code'
+                ? (mode === 'dark' ? 'bg-white/10 text-white' : 'bg-white text-gray-900 shadow-sm')
+                : (mode === 'dark' ? 'text-white/40 hover:text-white/70' : 'text-gray-500 hover:text-gray-700')
             }`}
           >
             <span>{'</>'}</span>
             <span className="hidden sm:inline">Code</span>
           </button>
+          <div className={`w-px h-4 mx-1 ${mode === 'dark' ? 'bg-white/10' : 'bg-gray-300'}`} />
+          <React.Suspense fallback={null}><ThemePicker /></React.Suspense>
         </div>
 
         {/* Right: save/publish */}
         <div className="flex items-center gap-2">
+          <button onClick={toggle} className={`px-2.5 py-1.5 rounded-md text-xs transition-colors ${mode === 'dark' ? 'text-white/40 hover:text-white/70' : 'text-gray-500 hover:text-gray-900'}`} title="Toggle light/dark">
+            {mode === 'dark' ? '☀️' : '🌙'}
+          </button>
           <button
             onClick={() => useBuilderStore.getState().saveToServer()}
-            className="px-4 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white text-xs font-medium hover:bg-white/20 transition-colors"
+            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-colors ${mode === 'dark' ? 'bg-white/10 border border-white/10 text-white hover:bg-white/20' : 'bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200'}`}
           >
             Save
           </button>
-          <button className="px-4 py-1.5 rounded-lg bg-white text-black text-xs font-medium hover:bg-white/90 transition-colors">
+          <button className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-colors ${mode === 'dark' ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-gray-800'}`}>
             Publish
           </button>
         </div>

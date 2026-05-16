@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Sparkles, Loader2, Check } from 'lucide-react';
+import { Send, Sparkles, Loader2 } from 'lucide-react';
 import { useBuilderStore } from '@/store/builderStore';
 import { useAuthStore } from '@/store/authStore';
 import { ai as aiAPI } from '@/utils/api';
@@ -10,12 +10,13 @@ interface ChatMessage {
   id: string;
   role: 'user' | 'ai' | 'system';
   content: string;
-  timestamp: number;
+  created_at?: string;
 }
 
 export default function BuilderChat({ projectId }: { projectId?: string }) {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [summary, setSummary] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { config, setConfig, selectedSectionId, updateSection } = useBuilderStore();
@@ -25,20 +26,42 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   useEffect(scrollToBottom, [messages]);
 
+  // Load persisted messages on mount
+  useEffect(() => {
+    if (!projectId) return;
+    fetch(`/api/chat/${projectId}`, { credentials: 'include' })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) {
+          setMessages(data.messages.map((m: any) => ({ id: m.id, role: m.role, content: m.content, created_at: m.created_at })));
+          if (data.summary) setSummary(data.summary);
+        }
+      })
+      .catch(() => {});
+    // Trigger summarize for old messages
+    fetch(`/api/chat/${projectId}/summarize`, { method: 'POST', credentials: 'include' }).catch(() => {});
+  }, [projectId]);
+
+  // Persist a message to server
+  const persistMessage = (role: string, content: string) => {
+    if (!projectId) return;
+    fetch(`/api/chat/${projectId}`, {
+      method: 'POST', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role, content }),
+    }).catch(() => {});
+  };
+
   // Show context when section is selected
   useEffect(() => {
     if (selectedSectionId) {
       const section = config.sections.find(s => s.id === selectedSectionId);
       if (section) {
+        const sysMsg = `Selected: ${section.type.replace('Section', '')} — "${(section.props as any)?.heading || (section.props as any)?.title || 'section'}"`;
         setMessages(prev => {
           const last = prev[prev.length - 1];
-          if (last?.role === 'system' && last.content.includes(section.type)) return prev;
-          return [...prev, {
-            id: crypto.randomUUID(),
-            role: 'system',
-            content: `Selected: ${section.type} — "${(section.props as any)?.title || (section.props as any)?.companyName || 'section'}"`,
-            timestamp: Date.now(),
-          }];
+          if (last?.role === 'system' && last.content === sysMsg) return prev;
+          return [...prev, { id: crypto.randomUUID(), role: 'system', content: sysMsg }];
         });
       }
     }
@@ -49,39 +72,31 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
     const userMsg = input.trim();
     setInput('');
 
-    setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'user', content: userMsg, timestamp: Date.now() }]);
+    const userEntry: ChatMessage = { id: crypto.randomUUID(), role: 'user', content: userMsg };
+    setMessages(prev => [...prev, userEntry]);
+    persistMessage('user', userMsg);
     setIsProcessing(true);
 
     try {
+      let aiResponse = '';
       if (selectedSectionId) {
-        // Edit selected section
-        const result = await aiAPI.edit({
-          projectId: projectId || '',
-          sectionId: selectedSectionId,
-          instruction: userMsg,
-          currentConfig: config,
-        });
+        const result = await aiAPI.edit({ projectId: projectId || '', sectionId: selectedSectionId, instruction: userMsg, currentConfig: config });
         recordState(config);
         updateSection(selectedSectionId, result.props);
-        setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'ai', content: '✓ Section updated.', timestamp: Date.now() }]);
+        aiResponse = '✓ Section updated.';
       } else {
-        // Full page generation
         const result = await aiAPI.generate({ prompt: userMsg, projectId });
         recordState(config);
         setConfig(result.config);
-        setMessages(prev => [...prev, {
-          id: crypto.randomUUID(), role: 'ai',
-          content: `Built ${result.config.sections.length} sections for "${result.config.metadata.projectName}".`,
-          timestamp: Date.now(),
-        }]);
+        aiResponse = `Built ${result.config.sections.length} sections for "${result.config.metadata.projectName}".`;
       }
-      // Refresh credits
-      try {
-        const credits = await aiAPI.credits();
-        updateCredits(credits.remaining);
-      } catch {}
+      setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'ai', content: aiResponse }]);
+      persistMessage('ai', aiResponse);
+      try { const credits = await aiAPI.credits(); updateCredits(credits.remaining); } catch {}
     } catch (err: any) {
-      setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'ai', content: `Error: ${err.message}`, timestamp: Date.now() }]);
+      const errMsg = `Error: ${err.message}`;
+      setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'ai', content: errMsg }]);
+      persistMessage('ai', errMsg);
     } finally {
       setIsProcessing(false);
     }
@@ -90,93 +105,72 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
   return (
     <div className="h-full flex flex-col bg-black/40 backdrop-blur-2xl border-r border-white/[0.08]">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-white/[0.08]">
+      <div className="px-4 py-3 border-b border-white/[0.08] flex-shrink-0">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-white" />
           <span className="text-sm font-medium text-white/90">ZeroBuild AI</span>
         </div>
         {config.sections.length > 0 && (
-          <p className="text-xs text-white/40 mt-1">
-            {config.sections.length} sections · {config.metadata.projectName}
-          </p>
+          <p className="text-[10px] text-white/30 mt-0.5">{config.sections.length} sections · {config.metadata.projectName}</p>
         )}
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-thin">
-        {messages.length === 0 && (
-          <div className="text-center py-12">
-            <Sparkles className="w-8 h-8 text-white/20 mx-auto mb-3" />
-            <p className="text-sm text-white/40">
-              {config.sections.length > 0
-                ? 'Click a section to edit it, or type a new prompt.'
-                : 'Describe your website to get started.'}
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2.5 scrollbar-thin min-h-0">
+        {summary && (
+          <div className="text-[10px] text-white/20 italic border border-white/5 rounded-lg px-2 py-1.5 mb-2">
+            Previous context: {summary}
+          </div>
+        )}
+        {messages.length === 0 && !summary && (
+          <div className="text-center py-8">
+            <Sparkles className="w-6 h-6 text-white/15 mx-auto mb-2" />
+            <p className="text-xs text-white/30">
+              {config.sections.length > 0 ? 'Click a section to edit, or type a prompt.' : 'Describe your website to start.'}
             </p>
           </div>
         )}
         <AnimatePresence initial={false}>
           {messages.map(msg => (
-            <motion.div
-              key={msg.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`text-sm ${
-                msg.role === 'user' ? 'text-white ml-6' :
-                msg.role === 'system' ? 'text-white/30 text-xs italic' :
-                'text-white/70'
-              }`}
-            >
-              {msg.role === 'user' && (
-                <div className="bg-white/[0.08] rounded-xl px-3 py-2 border border-white/[0.06]">
-                  {msg.content}
-                </div>
-              )}
+            <motion.div key={msg.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+              className={`text-xs ${msg.role === 'user' ? 'text-white ml-4' : msg.role === 'system' ? 'text-white/20 italic' : 'text-white/60'}`}>
+              {msg.role === 'user' && <div className="bg-white/[0.07] rounded-lg px-2.5 py-1.5 border border-white/[0.05]">{msg.content}</div>}
               {msg.role === 'ai' && (
-                <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Sparkles className="w-3 h-3 text-white/60" />
-                  </div>
+                <div className="flex items-start gap-1.5">
+                  <Sparkles className="w-3 h-3 text-white/40 mt-0.5 flex-shrink-0" />
                   <span>{msg.content}</span>
                 </div>
               )}
-              {msg.role === 'system' && <span>— {msg.content}</span>}
+              {msg.role === 'system' && <span className="text-[10px]">— {msg.content}</span>}
             </motion.div>
           ))}
         </AnimatePresence>
         {isProcessing && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-sm text-white/50">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5 text-xs text-white/40">
             <Loader2 className="w-3 h-3 animate-spin" />
-            <span>{selectedSectionId ? 'Editing section...' : 'Building your site...'}</span>
+            <span>{selectedSectionId ? 'Editing...' : 'Building...'}</span>
           </motion.div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Credits */}
-      {user && (
-        <div className="px-5 py-1.5 text-[10px] text-white/25">
-          {user.ai_credits_remaining} credits remaining
-        </div>
-      )}
+      {user && <div className="px-4 py-1 text-[9px] text-white/20 flex-shrink-0">{user.ai_credits_remaining} credits</div>}
 
       {/* Input */}
-      <div className="px-4 pb-4">
-        <div className="flex items-center gap-2 bg-white/[0.05] border border-white/[0.1] rounded-xl px-3 py-2">
+      <div className="px-3 pb-3 flex-shrink-0">
+        <div className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2">
           <input
-            type="text"
-            value={input}
+            type="text" value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
             placeholder={selectedSectionId ? 'Edit this section...' : 'Describe your website...'}
-            className="flex-1 bg-transparent text-sm text-white placeholder-white/30 focus:outline-none"
+            className="flex-1 bg-transparent text-xs text-white placeholder-white/25 focus:outline-none min-w-0"
             disabled={isProcessing}
           />
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || isProcessing}
-            className="w-7 h-7 rounded-lg bg-white flex items-center justify-center disabled:opacity-30 hover:bg-white/90 transition-colors"
-          >
-            <Send className="w-3.5 h-3.5 text-black" />
+          <button onClick={handleSend} disabled={!input.trim() || isProcessing}
+            className="w-6 h-6 rounded-lg bg-white flex items-center justify-center disabled:opacity-20 flex-shrink-0">
+            <Send className="w-3 h-3 text-black" />
           </button>
         </div>
       </div>

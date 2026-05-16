@@ -15,6 +15,7 @@ import deployRoutes from './deploy/routes.js';
 import assetRoutes from './assets/routes.js';
 import suggestionRoutes from './suggestions/routes.js';
 import adminRoutes from './admin/routes.js';
+import chatRoutes from './chat/routes.js';
 
 dotenv.config({ path: new URL('./.env', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1') });
 if (!process.env.DATABASE_URL) {
@@ -63,6 +64,7 @@ app.use('/api/deploy', deployRoutes);
 app.use('/api/assets', assetRoutes);
 app.use('/api/suggestions', suggestionRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Serve uploaded files
 app.use('/uploads', express.static(join(__dirname, 'uploads')));
