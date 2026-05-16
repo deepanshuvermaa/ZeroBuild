@@ -31,7 +31,7 @@ export default function HeroLanding() {
       {/* ── Background Video ── */}
       <video
         className="absolute inset-0 w-full h-full object-cover z-0"
-        src="/hero-raw.mp4"
+        src="/hero.mp4"
         autoPlay
         loop
         muted
