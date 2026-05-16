@@ -139,25 +139,31 @@ function EditorPage() {
       </nav>
 
       {/* Two-panel layout */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {editorMode === 'code' ? (
           <React.Suspense fallback={<div className="flex-1 bg-[#1e1e1e]" />}>
             <ProfessionalCodeEditor onSave={(code) => console.log('Saved:', code)} />
           </React.Suspense>
         ) : (
           <>
-            {/* Left: AI Chat Panel */}
-            <aside className="w-[320px] flex-shrink-0 hidden md:block">
+            {/* Left: AI Chat Panel (hidden on mobile, shown as bottom sheet) */}
+            <aside className="w-[320px] flex-shrink-0 hidden md:block h-full">
               <React.Suspense fallback={<div className="h-full bg-black/40" />}>
                 <BuilderChat projectId={projectId} />
               </React.Suspense>
             </aside>
-            {/* Right: Full Preview */}
-            <main className="flex-1 min-w-0">
+            {/* Preview */}
+            <main className="flex-1 min-w-0 min-h-0">
               <React.Suspense fallback={<div className="h-full bg-[#0a0a0a]" />}>
                 <PreviewCanvas />
               </React.Suspense>
             </main>
+            {/* Mobile: Chat as bottom sheet */}
+            <div className="md:hidden border-t border-white/[0.08] h-[45vh] flex-shrink-0">
+              <React.Suspense fallback={<div className="h-full bg-black/40" />}>
+                <BuilderChat projectId={projectId} />
+              </React.Suspense>
+            </div>
           </>
         )}
       </div>

@@ -200,3 +200,4 @@ export const CategorySectionPreview: React.FC<PreviewProps> = ({
     </div>
   );
 };
+

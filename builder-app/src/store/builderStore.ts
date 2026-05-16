@@ -243,6 +243,8 @@ export const useBuilderStore = create<BuilderStore>((set, get) => ({
   saveToServer: async () => {
     const { config, projectId } = get();
     if (!projectId) return;
+    // Always save to localStorage as backup
+    try { localStorage.setItem(`project_${projectId}`, JSON.stringify(config)); } catch {}
     set({ isSaving: true });
     try {
       const res = await fetch(`/api/projects/${projectId}`, {
@@ -267,7 +269,16 @@ export const useBuilderStore = create<BuilderStore>((set, get) => ({
       const res = await fetch(`/api/projects/${projectId}`, {
         credentials: 'include',
       });
-      if (!res.ok) throw new Error('Failed to load project');
+      if (!res.ok) {
+        // Try localStorage fallback
+        const cached = localStorage.getItem(`project_${projectId}`);
+        if (cached) {
+          const config = JSON.parse(cached);
+          set({ config, projectId, hasUnsavedChanges: false, selectedSectionId: null });
+          return;
+        }
+        throw new Error('Failed to load project');
+      }
       const { project } = await res.json();
       set({
         config: project.config,
@@ -275,6 +286,8 @@ export const useBuilderStore = create<BuilderStore>((set, get) => ({
         hasUnsavedChanges: false,
         selectedSectionId: null,
       });
+      // Cache locally
+      try { localStorage.setItem(`project_${projectId}`, JSON.stringify(project.config)); } catch {}
     } catch (error) {
       console.error('Failed to load from server:', error);
       throw error;

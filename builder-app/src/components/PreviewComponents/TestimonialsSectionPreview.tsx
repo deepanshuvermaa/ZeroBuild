@@ -149,17 +149,7 @@ export const TestimonialsSectionPreview: React.FC<PreviewProps> = ({
       {/* Hover Indicator */}
       <div className="absolute inset-0 border-2 border-dashed border-blue-400 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-      {/* Selected Hint */}
-      {isSelected && (
-        <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm shadow-lg flex items-center gap-2 z-20"
-        >
-          <span>✏️</span>
-          <span>Click properties panel to edit →</span>
-        </motion.div>
-      )}
     </div>
   );
 };
+

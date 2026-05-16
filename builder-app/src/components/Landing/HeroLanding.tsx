@@ -138,7 +138,7 @@ export default function HeroLanding() {
 
       {/* Hero Content — centered */}
       <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 py-8 text-center">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl bg-black/40 backdrop-blur-sm rounded-3xl p-6 sm:p-10">
           <div className="animate-blur-fade-up flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-4 sm:mb-6 text-[11px] sm:text-sm text-white/80" style={{ animationDelay: '300ms' }}>
             <span className="flex items-center gap-1"><Star size={12} className="fill-white text-white" /><span className="font-medium">AI-Powered</span></span>
             <span className="flex items-center gap-1"><Clock size={12} />Under 60s</span>

@@ -30,7 +30,7 @@ const SYSTEM_ROLE = `You are ZeroBuild's AI website architect. You generate stru
 CONSTRAINTS:
 - Output ONLY valid JSON. No markdown, no explanation, no code fences.
 - Every string value must be a non-empty string (never null/undefined).
-- Use placeholder images from https://placehold.co (e.g. "https://placehold.co/800x600").
+- Use placeholder images from https://images.unsplash.com (e.g. "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop" for business, "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop" for food).
 - Icons should be emoji characters (e.g. "🚀", "💼", "📱").
 - All URLs should start with "#" for internal links or "https://" for external.
 - Generate realistic, compelling business content — not lorem ipsum.`;

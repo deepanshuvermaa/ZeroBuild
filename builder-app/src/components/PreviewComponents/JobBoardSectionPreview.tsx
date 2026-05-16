@@ -492,3 +492,4 @@ export const JobBoardSectionPreview: React.FC<JobBoardSectionPreviewProps> = ({
     </section>
   );
 };
+
