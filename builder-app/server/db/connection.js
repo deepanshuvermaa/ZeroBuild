@@ -213,8 +213,8 @@ export async function initDatabase() {
   if (demoExists.rows.length === 0) {
     const hash = await bcrypt.hash('password123', 12);
     await query(
-      `INSERT INTO users (id, email, password_hash, name, plan, role, ai_credits_remaining, ai_credits_monthly_limit, is_verified) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-      ['a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'demo@zerobuild.com', hash, 'Demo User', 'pro', 'user', 500, 500, true]
+      `INSERT INTO users (email, password_hash, name, plan, role, ai_credits_remaining, ai_credits_monthly_limit, is_verified) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+      ['demo@zerobuild.com', hash, 'Demo User', 'pro', 'user', 500, 500, true]
     );
     console.log('  Demo user: demo@zerobuild.com / password123');
   }
@@ -223,8 +223,8 @@ export async function initDatabase() {
   if (adminExists.rows.length === 0) {
     const adminHash = await bcrypt.hash('Dv12062001@', 12);
     await query(
-      `INSERT INTO users (id, email, password_hash, name, plan, role, ai_credits_remaining, ai_credits_monthly_limit, is_verified) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-      ['admin-deepanshu-verma-000000000001', 'deepanshuverma966@gmail.com', adminHash, 'Deepanshu Verma', 'agency', 'admin', 9999, 9999, true]
+      `INSERT INTO users (email, password_hash, name, plan, role, ai_credits_remaining, ai_credits_monthly_limit, is_verified) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+      ['deepanshuverma966@gmail.com', adminHash, 'Deepanshu Verma', 'agency', 'admin', 9999, 9999, true]
     );
     console.log('  Admin user: deepanshuverma966@gmail.com');
   }
