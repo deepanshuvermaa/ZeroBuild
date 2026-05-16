@@ -14,6 +14,7 @@ const Settings = React.lazy(() => import('@/components/Dashboard/Settings'));
 const AdminDashboard = React.lazy(() => import('@/components/Admin/AdminDashboard'));
 const BuilderChat = React.lazy(() => import('@/components/Builder/BuilderChat'));
 const PreviewCanvas = React.lazy(() => import('@/components/Builder/PreviewCanvas'));
+const PropertyPanel = React.lazy(() => import('@/components/Builder/PropertyPanel'));
 const ThemePicker = React.lazy(() => import('@/components/Builder/ThemePicker'));
 const ProfessionalCodeEditor = React.lazy(() => import('@/components/Builder/CodeEditor/ProfessionalCodeEditor').then(m => ({ default: m.ProfessionalCodeEditor })));
 
@@ -46,7 +47,7 @@ function RequireAdmin({ children }: { children: React.ReactNode }) {
 function EditorPage() {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
-  const { loadFromServer, setProjectId, config, setPreviewMode, previewMode } = useBuilderStore();
+  const { loadFromServer, setProjectId, config, setPreviewMode, previewMode, selectedSectionId } = useBuilderStore();
   const { mode, toggle } = useThemeStore();
   const [isLoading, setIsLoading] = React.useState(true);
   const [editorMode, setEditorMode] = React.useState<'visual' | 'code'>('visual');
@@ -158,20 +159,28 @@ function EditorPage() {
           </React.Suspense>
         ) : (
           <>
-            {/* Left: AI Chat Panel (hidden on mobile, shown as bottom sheet) */}
-            <aside className="w-[320px] flex-shrink-0 hidden md:block h-full">
+            {/* Left: AI Chat Panel */}
+            <aside className="w-[280px] flex-shrink-0 hidden md:block h-full">
               <React.Suspense fallback={<div className="h-full bg-black/40" />}>
                 <BuilderChat projectId={projectId} />
               </React.Suspense>
             </aside>
             {/* Preview */}
             <main className="flex-1 min-w-0 min-h-0">
-              <React.Suspense fallback={<div className="h-full bg-[#0a0a0a]" />}>
+              <React.Suspense fallback={<div className="h-full bg-white" />}>
                 <PreviewCanvas />
               </React.Suspense>
             </main>
+            {/* Right: Property Panel (when section selected) */}
+            {selectedSectionId && (
+              <aside className="w-[300px] flex-shrink-0 hidden lg:block h-full">
+                <React.Suspense fallback={<div className="h-full bg-white" />}>
+                  <PropertyPanel />
+                </React.Suspense>
+              </aside>
+            )}
             {/* Mobile: Chat as bottom sheet */}
-            <div className="md:hidden border-t border-white/[0.08] h-[45vh] flex-shrink-0">
+            <div className="md:hidden border-t border-gray-200 h-[40vh] flex-shrink-0">
               <React.Suspense fallback={<div className="h-full bg-black/40" />}>
                 <BuilderChat projectId={projectId} />
               </React.Suspense>

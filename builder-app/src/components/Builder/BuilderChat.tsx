@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Sparkles, Loader2 } from 'lucide-react';
 import { useBuilderStore } from '@/store/builderStore';
 import { useAuthStore } from '@/store/authStore';
+import { useThemeStore } from '@/store/themeStore';
 import { ai as aiAPI } from '@/utils/api';
 import { useHistoryStore } from '@/store/historyStore';
 
@@ -22,6 +23,8 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
   const { config, setConfig, selectedSectionId, updateSection } = useBuilderStore();
   const { recordState } = useHistoryStore();
   const { user, updateCredits } = useAuthStore();
+  const { mode } = useThemeStore();
+  const dark = mode === 'dark';
 
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   useEffect(scrollToBottom, [messages]);
@@ -103,29 +106,29 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
   };
 
   return (
-    <div className="h-full flex flex-col bg-black/40 backdrop-blur-2xl border-r border-white/[0.08]">
+    <div className={`h-full flex flex-col border-r ${dark ? 'bg-black/40 backdrop-blur-2xl border-white/[0.08]' : 'bg-gray-50 border-gray-200'}`}>
       {/* Header */}
-      <div className="px-4 py-3 border-b border-white/[0.08] flex-shrink-0">
+      <div className={`px-4 py-3 border-b flex-shrink-0 ${dark ? 'border-white/[0.08]' : 'border-gray-200'}`}>
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-white" />
-          <span className="text-sm font-medium text-white/90">ZeroBuild AI</span>
+          <Sparkles className={`w-4 h-4 ${dark ? 'text-white' : 'text-blue-600'}`} />
+          <span className={`text-sm font-medium ${dark ? 'text-white/90' : 'text-gray-900'}`}>ZeroBuild AI</span>
         </div>
         {config.sections.length > 0 && (
-          <p className="text-[10px] text-white/30 mt-0.5">{config.sections.length} sections · {config.metadata.projectName}</p>
+          <p className={`text-[11px] mt-0.5 ${dark ? 'text-white/30' : 'text-gray-500'}`}>{config.sections.length} sections · {config.metadata.projectName}</p>
         )}
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-3 py-3 space-y-2.5 scrollbar-thin min-h-0">
         {summary && (
-          <div className="text-[10px] text-white/20 italic border border-white/5 rounded-lg px-2 py-1.5 mb-2">
+          <div className={`text-[11px] italic border rounded-lg px-2 py-1.5 mb-2 ${dark ? 'text-white/20 border-white/5' : 'text-gray-500 border-gray-200 bg-gray-100'}`}>
             Previous context: {summary}
           </div>
         )}
         {messages.length === 0 && !summary && (
           <div className="text-center py-8">
-            <Sparkles className="w-6 h-6 text-white/15 mx-auto mb-2" />
-            <p className="text-xs text-white/30">
+            <Sparkles className={`w-6 h-6 mx-auto mb-2 ${dark ? 'text-white/15' : 'text-gray-300'}`} />
+            <p className={`text-sm ${dark ? 'text-white/30' : 'text-gray-500'}`}>
               {config.sections.length > 0 ? 'Click a section to edit, or type a prompt.' : 'Describe your website to start.'}
             </p>
           </div>
@@ -133,21 +136,21 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
         <AnimatePresence initial={false}>
           {messages.map(msg => (
             <motion.div key={msg.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-              className={`text-xs ${msg.role === 'user' ? 'text-white ml-4' : msg.role === 'system' ? 'text-white/20 italic' : 'text-white/60'}`}>
-              {msg.role === 'user' && <div className="bg-white/[0.07] rounded-lg px-2.5 py-1.5 border border-white/[0.05]">{msg.content}</div>}
+              className={`text-sm ${msg.role === 'user' ? (dark ? 'text-white ml-4' : 'text-gray-900 ml-4') : msg.role === 'system' ? (dark ? 'text-white/20 italic' : 'text-gray-400 italic') : (dark ? 'text-white/70' : 'text-gray-700')}`}>
+              {msg.role === 'user' && <div className={`rounded-lg px-3 py-2 border ${dark ? 'bg-white/[0.07] border-white/[0.05]' : 'bg-blue-50 border-blue-100'}`}>{msg.content}</div>}
               {msg.role === 'ai' && (
                 <div className="flex items-start gap-1.5">
-                  <Sparkles className="w-3 h-3 text-white/40 mt-0.5 flex-shrink-0" />
+                  <Sparkles className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${dark ? 'text-white/40' : 'text-blue-500'}`} />
                   <span>{msg.content}</span>
                 </div>
               )}
-              {msg.role === 'system' && <span className="text-[10px]">— {msg.content}</span>}
+              {msg.role === 'system' && <span className="text-[11px]">— {msg.content}</span>}
             </motion.div>
           ))}
         </AnimatePresence>
         {isProcessing && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5 text-xs text-white/40">
-            <Loader2 className="w-3 h-3 animate-spin" />
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`flex items-center gap-1.5 text-sm ${dark ? 'text-white/40' : 'text-gray-500'}`}>
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
             <span>{selectedSectionId ? 'Editing...' : 'Building...'}</span>
           </motion.div>
         )}
@@ -155,22 +158,22 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
       </div>
 
       {/* Credits */}
-      {user && <div className="px-4 py-1 text-[9px] text-white/20 flex-shrink-0">{user.ai_credits_remaining} credits</div>}
+      {user && <div className={`px-4 py-1 text-[11px] flex-shrink-0 ${dark ? 'text-white/20' : 'text-gray-400'}`}>{user.ai_credits_remaining} credits</div>}
 
       {/* Input */}
       <div className="px-3 pb-3 flex-shrink-0">
-        <div className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2">
+        <div className={`flex items-center gap-2 border rounded-xl px-3 py-2 ${dark ? 'bg-white/[0.04] border-white/[0.08]' : 'bg-white border-gray-200 shadow-sm'}`}>
           <input
             type="text" value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
             placeholder={selectedSectionId ? 'Edit this section...' : 'Describe your website...'}
-            className="flex-1 bg-transparent text-xs text-white placeholder-white/25 focus:outline-none min-w-0"
+            className={`flex-1 bg-transparent text-sm focus:outline-none min-w-0 ${dark ? 'text-white placeholder-white/25' : 'text-gray-900 placeholder-gray-400'}`}
             disabled={isProcessing}
           />
           <button onClick={handleSend} disabled={!input.trim() || isProcessing}
-            className="w-6 h-6 rounded-lg bg-white flex items-center justify-center disabled:opacity-20 flex-shrink-0">
-            <Send className="w-3 h-3 text-black" />
+            className={`w-7 h-7 rounded-lg flex items-center justify-center disabled:opacity-20 flex-shrink-0 ${dark ? 'bg-white' : 'bg-blue-600'}`}>
+            <Send className={`w-3.5 h-3.5 ${dark ? 'text-black' : 'text-white'}`} />
           </button>
         </div>
       </div>

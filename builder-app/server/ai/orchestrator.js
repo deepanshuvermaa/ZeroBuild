@@ -1,132 +1,133 @@
 import { v4 as uuidv4 } from 'uuid';
 import { aiComplete } from './client.js';
 
-const SECTION_INTERFACES = {
-  HeroSection: `{ title: string, subtitle: string, backgroundImage: string, ctaText: string, ctaLink: string, secondaryCtaText?: string, secondaryCtaLink?: string, alignment: "left"|"center"|"right", overlayOpacity: number, showBadge?: boolean, badgeText?: string }`,
-  AboutSection: `{ title: string, subtitle: string, description: string, image: string, imagePosition: "left"|"right", stats?: {label:string,value:string}[], showButton?: boolean, buttonText?: string, buttonLink?: string }`,
-  ServicesSection: `{ title: string, subtitle: string, services: {icon:string,title:string,description:string,link?:string}[], columns: 2|3|4, layout: "grid"|"list" }`,
-  MenuSection: `{ title: string, subtitle: string, categories: {name:string, items:{name:string,description:string,price:string,image?:string,badge?:string}[]}[] }`,
-  GallerySection: `{ title: string, subtitle: string, images: {src:string,alt:string,caption?:string}[], columns: 2|3|4, layout: "grid"|"masonry", showLightbox: boolean }`,
-  TestimonialsSection: `{ title: string, subtitle: string, testimonials: {name:string,role:string,company?:string,content:string,avatar:string,rating:number}[], layout: "grid"|"carousel" }`,
-  OffersSection: `{ title: string, subtitle: string, offers: {title:string,description:string,discount:string,originalPrice?:string,salePrice?:string,image?:string,badge?:string,ctaText:string,ctaLink:string,validUntil?:string}[] }`,
-  CTASection: `{ title: string, subtitle: string, buttonText: string, buttonLink: string, secondaryButtonText?: string, secondaryButtonLink?: string, backgroundImage?: string, backgroundColor?: string, layout: "centered"|"split" }`,
-  FooterSection: `{ companyName: string, description: string, logo?: string, links: {group:string,items:{label:string,url:string}[]}[], socialLinks: {platform:string,url:string}[], contactInfo?: {email?:string,phone?:string,address?:string}, copyrightText: string }`,
-  FloatingWhatsApp: `{ phoneNumber: string, defaultMessage: string, position: "bottom-right"|"bottom-left", showOnMobile: boolean }`,
-  CardSection: `{ title: string, subtitle: string, cards: {title:string,description:string,image?:string,icon?:string,ctaText?:string,ctaLink?:string,badge?:string}[], columns: 2|3|4, layout: "standard"|"horizontal"|"overlay" }`,
-  StatsSection: `{ title: string, subtitle: string, stats: {value:string,label:string,icon?:string,prefix?:string,suffix?:string}[], backgroundColor?: string, layout: "row"|"grid" }`,
-  CategorySection: `{ title: string, subtitle: string, categories: {name:string,description?:string,image:string,link?:string,itemCount?:number}[], columns: 2|3|4, layout: "grid"|"carousel" }`,
-  ProfileSection: `{ name: string, title: string, bio: string, avatar: string, coverImage?: string, socialLinks: {platform:string,url:string}[], skills?: string[], contactEmail?: string }`,
-  PricingSection: `{ title: string, subtitle: string, plans: {name:string,price:string,period:string,description:string,features:string[],ctaText:string,ctaLink:string,isPopular?:boolean,badge?:string}[], showToggle?: boolean }`,
-  FAQSection: `{ title: string, subtitle: string, faqs: {question:string,answer:string}[], layout: "accordion"|"grid" }`,
-  TimelineSection: `{ title: string, subtitle: string, events: {date:string,title:string,description:string,icon?:string,image?:string}[], layout: "vertical"|"horizontal" }`,
-  FeatureSection: `{ title: string, subtitle: string, features: {icon:string,title:string,description:string,image?:string}[], layout: "grid"|"alternating"|"centered", columns: 2|3 }`,
-  JobBoardSection: `{ title: string, subtitle: string, jobs: {title:string,department:string,location:string,type:string,description:string,applyLink:string,postedDate?:string}[], showFilters: boolean }`,
+// Unsplash image search helper — generates relevant URLs based on keywords
+function unsplashImg(keywords, w = 800, h = 600) {
+  const query = encodeURIComponent(keywords);
+  return `https://source.unsplash.com/${w}x${h}/?${query}`;
+}
+
+const SECTION_SCHEMAS = {
+  HeroSection: `{ heading: string, subheading: string, backgroundImage: string, ctaText: string, ctaLink: string, backgroundColor: string, textColor: string, overlayOpacity: number }`,
+  AboutSection: `{ heading: string, subheading: string, description: string, image: string, imagePosition: "left"|"right", stats: {label:string,value:string}[], backgroundColor: string }`,
+  ServicesSection: `{ heading: string, subheading: string, services: {icon:string,title:string,description:string}[], columns: 3, backgroundColor: string }`,
+  MenuSection: `{ heading: string, subheading: string, categories: {name:string, items:{name:string,description:string,price:string,image:string}[]}[], backgroundColor: string }`,
+  GallerySection: `{ heading: string, subheading: string, images: {src:string,alt:string,caption:string}[], columns: 3, layout: "grid", backgroundColor: string }`,
+  TestimonialsSection: `{ heading: string, subheading: string, testimonials: {name:string,role:string,company:string,content:string,avatar:string,rating:5}[], layout: "grid", backgroundColor: string }`,
+  OffersSection: `{ heading: string, subheading: string, offers: {title:string,description:string,discount:string,originalPrice:string,salePrice:string,image:string,badge:string,ctaText:string,ctaLink:string}[], backgroundColor: string }`,
+  CTASection: `{ heading: string, description: string, ctaText: string, ctaLink: string, backgroundImage: string, backgroundColor: string, textColor: string }`,
+  FooterSection: `{ businessName: string, tagline: string, address: string, phone: string, email: string, socialLinks: {platform:string,url:string}[], backgroundColor: string, textColor: string }`,
+  CardSection: `{ heading: string, subheading: string, cards: {title:string,description:string,image:string,icon:string}[], columns: 3, backgroundColor: string }`,
+  StatsSection: `{ heading: string, subheading: string, stats: {value:string,label:string,icon:string}[], backgroundColor: string }`,
+  CategorySection: `{ heading: string, subheading: string, categories: {name:string,description:string,image:string,itemCount:number}[], columns: 3, backgroundColor: string }`,
+  PricingSection: `{ heading: string, subheading: string, plans: {name:string,price:string,period:string,description:string,features:string[],ctaText:string,ctaLink:string,isPopular:boolean}[], backgroundColor: string }`,
+  FAQSection: `{ heading: string, subheading: string, faqs: {question:string,answer:string}[], layout: "accordion", backgroundColor: string }`,
+  FeatureSection: `{ heading: string, subheading: string, features: {icon:string,title:string,description:string}[], columns: 3, backgroundColor: string }`,
 };
 
-const ALL_SECTION_TYPES = Object.keys(SECTION_INTERFACES).join(', ');
-
-const SYSTEM_ROLE = `You are ZeroBuild's AI website architect. You generate structured JSON configurations for pre-built React components.
-
-CONSTRAINTS:
-- Output ONLY valid JSON. No markdown, no explanation, no code fences.
-- Every string value must be a non-empty string (never null/undefined).
-- Use placeholder images from https://images.unsplash.com (e.g. "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop" for business, "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop" for food).
-- Icons should be emoji characters (e.g. "🚀", "💼", "📱").
-- All URLs should start with "#" for internal links or "https://" for external.
-- Generate realistic, compelling business content — not lorem ipsum.`;
-
 export async function generateFullPage(prompt) {
-  // Step 1: Intent + section selection
+  console.log(`[Orchestrator] Starting generation for: "${prompt.substring(0, 80)}..."`);
+
+  // Step 1: Understand the business
+  console.log('[Orchestrator] Step 1: Analyzing business intent...');
   const intent = await aiComplete({
-    systemPrompt: `${SYSTEM_ROLE}
+    systemPrompt: `You are a web strategist. Analyze the business and decide what sections to build.
 
-TASK: Analyze the user's business description and select appropriate sections.
-AVAILABLE SECTIONS: ${ALL_SECTION_TYPES}
+AVAILABLE: HeroSection, AboutSection, ServicesSection, MenuSection, GallerySection, TestimonialsSection, OffersSection, CTASection, FooterSection, CardSection, StatsSection, CategorySection, PricingSection, FAQSection, FeatureSection
 
-OUTPUT FORMAT (strict JSON):
-{ "industry": string, "businessName": string, "audience": string, "tone": "professional"|"casual"|"luxury"|"playful"|"minimal", "sections": string[] }
+OUTPUT ONLY THIS JSON:
+{ "industry": string, "businessName": string, "location": string, "audience": string, "tone": "professional"|"warm"|"luxury"|"playful", "imageKeywords": string[], "sections": string[] }
 
 RULES:
-- Choose 5-8 sections that make sense for this business type.
-- ALWAYS start with HeroSection and end with FooterSection.
-- For restaurants/cafes: include MenuSection.
-- For e-commerce: include CategorySection, OffersSection.
-- For services: include ServicesSection, PricingSection.
-- For portfolios: include GallerySection, ProfileSection.
-- Never include FloatingWhatsApp in the sections array (handled separately).`,
+- imageKeywords: 5-8 specific search terms for stock photos (e.g. ["almonds close up", "cashews bowl", "dry fruits packaging", "indian spices market"])
+- sections: 6-8 sections. ALWAYS start with HeroSection, end with FooterSection.
+- For food/grocery: use CategorySection, MenuSection, OffersSection
+- For services: use ServicesSection, PricingSection, FAQSection
+- For e-commerce: use CategorySection, CardSection, OffersSection`,
     userPrompt: prompt,
     maxTokens: 512,
     json: true,
   });
+  console.log(`[Orchestrator] Intent: ${intent.businessName} (${intent.industry}), ${intent.sections.length} sections planned`);
 
-  // Step 2: Theme generation
+  // Step 2: Generate theme
+  console.log('[Orchestrator] Step 2: Generating brand theme...');
   const theme = await aiComplete({
-    systemPrompt: `${SYSTEM_ROLE}
-
-TASK: Generate a brand color palette and font for this business.
-OUTPUT FORMAT (strict JSON):
+    systemPrompt: `Generate a brand color palette. Output ONLY JSON:
 { "primaryColor": "#hex", "secondaryColor": "#hex", "accentColor": "#hex", "fontFamily": string }
 
-RULES:
-- Use accessible color combinations (WCAG AA contrast).
-- fontFamily must be a Google Font: Inter, Poppins, Playfair Display, Roboto, Montserrat, Lato, Raleway, or Open Sans.
-- For luxury brands: use Playfair Display with deep colors.
-- For tech/modern: use Inter or Montserrat with blue/purple tones.
-- For food/restaurants: use warm colors (amber, red, green).`,
-    userPrompt: `Business: ${intent.businessName || prompt}\nIndustry: ${intent.industry}\nTone: ${intent.tone}\nAudience: ${intent.audience}`,
-    maxTokens: 256,
+Rules:
+- primaryColor: main brand color (used for headers, buttons)
+- secondaryColor: supporting color (used for backgrounds, cards)
+- accentColor: highlight color (used for badges, CTAs)
+- fontFamily: one of "Inter", "Poppins", "Playfair Display", "Montserrat", "Lato"
+- For food businesses: warm tones (amber #d97706, green #16a34a, brown #92400e)
+- For tech: cool tones (blue #2563eb, purple #7c3aed, cyan #06b6d4)
+- For luxury: deep tones (gold #b8860b, navy #1e3a5f, black #0a0a0a)`,
+    userPrompt: `${intent.businessName} - ${intent.industry} - ${intent.tone} - audience: ${intent.audience}`,
+    maxTokens: 200,
     json: true,
   });
+  console.log(`[Orchestrator] Theme: ${theme.primaryColor} / ${theme.secondaryColor} / ${theme.fontFamily}`);
 
-  // Step 3: Generate sections in batches of 3 to avoid rate limit bursts
-  const BATCH_SIZE = 3;
+  // Step 3: Generate sections with FULL context
+  const imageKeywords = intent.imageKeywords || [intent.industry];
   const sections = [];
 
-  for (let i = 0; i < intent.sections.length; i += BATCH_SIZE) {
-    const batch = intent.sections.slice(i, i + BATCH_SIZE);
-    const batchPromises = batch.map(async (sectionType) => {
-      const schema = SECTION_INTERFACES[sectionType];
-      if (!schema) { console.warn(`[AI] Unknown section type: ${sectionType}`); return null; }
+  for (let i = 0; i < intent.sections.length; i++) {
+    const sectionType = intent.sections[i];
+    const schema = SECTION_SCHEMAS[sectionType];
+    if (!schema) { console.warn(`[Orchestrator] Unknown: ${sectionType}`); continue; }
 
+    console.log(`[Orchestrator] Step 3.${i + 1}: Generating ${sectionType}...`);
+
+    const imgHint = imageKeywords[i % imageKeywords.length] || intent.industry;
+
+    try {
       const props = await aiComplete({
-        systemPrompt: `${SYSTEM_ROLE}
+        systemPrompt: `You generate website section content as JSON. Output ONLY valid JSON matching this schema:
+${schema}
 
-TASK: Generate content for a ${sectionType} component.
-EXACT OUTPUT SCHEMA: ${schema}
-
-CONTEXT:
-- Business: ${intent.businessName || 'Business'}
+BUSINESS CONTEXT:
+- Name: ${intent.businessName}
 - Industry: ${intent.industry}
+- Location: ${intent.location || 'India'}
 - Audience: ${intent.audience}
 - Tone: ${intent.tone}
-- Brand colors: primary=${theme.primaryColor}, secondary=${theme.secondaryColor}, accent=${theme.accentColor}
 
-RULES:
-- Every field in the schema MUST be present in your output.
-- String fields must never be empty — generate real content.
-- Arrays must have at least 3 items (except socialLinks which needs 2+).
-- rating fields must be 4 or 5 (positive testimonials).
-- price fields should be realistic for the industry.`,
-        userPrompt: `Generate ${sectionType} content for: ${prompt}`,
+THEME COLORS (use these in backgroundColor/textColor fields):
+- Primary: ${theme.primaryColor}
+- Secondary: ${theme.secondaryColor}
+- Accent: ${theme.accentColor}
+
+IMAGE RULES:
+- Use this format: https://source.unsplash.com/800x600/?KEYWORD
+- Replace KEYWORD with relevant terms like: ${imgHint}
+- For avatars: https://source.unsplash.com/150x150/?portrait,indian
+- Each image URL must be UNIQUE (add different keywords)
+
+CONTENT RULES:
+- Write in the language/style appropriate for ${intent.audience}
+- Testimonials must have realistic Indian names, specific feedback (not generic)
+- Prices in ₹ (Indian Rupees) if location is India
+- Stats should be impressive but believable
+- descriptions should be 1-2 sentences, compelling
+- backgroundColor: alternate between "#ffffff", "${theme.primaryColor}10", "${theme.secondaryColor}10" for visual rhythm
+- textColor: use "#1f2937" for light backgrounds, "#ffffff" for dark backgrounds`,
+        userPrompt: `Generate ${sectionType} for ${intent.businessName}: ${prompt}`,
         maxTokens: 2048,
         json: true,
       });
 
-      return { id: uuidv4(), type: sectionType, props, order: 0 };
-    });
-
-    const batchResults = await Promise.allSettled(batchPromises);
-    batchResults
-      .filter(r => r.status === 'fulfilled' && r.value)
-      .forEach(r => sections.push(r.value));
+      sections.push({ id: uuidv4(), type: sectionType, props, order: i });
+    } catch (err) {
+      console.error(`[Orchestrator] Failed to generate ${sectionType}:`, err.message);
+    }
   }
 
-  // Assign order
-  sections.forEach((s, i) => { s.order = i; });
+  console.log(`[Orchestrator] Complete: ${sections.length}/${intent.sections.length} sections generated`);
 
-  if (sections.length === 0) {
-    throw new Error('AI failed to generate any sections');
-  }
+  if (sections.length === 0) throw new Error('AI failed to generate any sections');
 
   return {
     metadata: {
@@ -139,38 +140,30 @@ RULES:
     theme,
     whatsapp: { phoneNumber: '', defaultMessage: `Hi! I'm interested in ${intent.businessName || 'your services'}.`, enabled: false },
     seo: {
-      title: `${intent.businessName || intent.industry} - Official Website`,
+      title: `${intent.businessName || intent.industry} - ${intent.location || ''}`,
       description: prompt.substring(0, 160),
-      keywords: [intent.industry, intent.audience, intent.businessName].filter(Boolean),
+      keywords: [intent.industry, intent.audience, intent.businessName, intent.location].filter(Boolean),
     },
     sections,
   };
 }
 
-/**
- * Diff-based edit: only regenerates the targeted section, not the full config.
- */
 export async function editSection(currentConfig, sectionId, instruction) {
   const section = currentConfig.sections?.find(s => s.id === sectionId);
   if (!section) throw new Error('Section not found');
+  const schema = SECTION_SCHEMAS[section.type];
 
-  const schema = SECTION_INTERFACES[section.type];
+  console.log(`[Orchestrator] Editing ${section.type}: "${instruction.substring(0, 50)}..."`);
 
   return aiComplete({
-    systemPrompt: `${SYSTEM_ROLE}
+    systemPrompt: `Modify this section's props based on the user's instruction. Return COMPLETE updated props as JSON.
 
-TASK: Modify ONLY the specified properties based on the user's instruction.
-SECTION TYPE: ${section.type}
+SECTION: ${section.type}
 SCHEMA: ${schema || 'unknown'}
-
-CURRENT PROPS:
+CURRENT:
 ${JSON.stringify(section.props, null, 2)}
 
-RULES:
-- Return the COMPLETE props object (not just changed fields).
-- Only change what the user explicitly asks for.
-- Keep all other values exactly the same.
-- Never return null or undefined values — use empty string "" if removing text.`,
+Rules: Change ONLY what user asks. Keep everything else identical. Never return null.`,
     userPrompt: instruction,
     maxTokens: 2048,
     json: true,
@@ -178,22 +171,11 @@ RULES:
 }
 
 export async function rewriteCopy(sectionType, currentProps, instruction) {
-  const schema = SECTION_INTERFACES[sectionType];
-
+  const schema = SECTION_SCHEMAS[sectionType];
   return aiComplete({
-    systemPrompt: `${SYSTEM_ROLE}
-
-TASK: Rewrite text/copy content based on the instruction.
-SECTION TYPE: ${sectionType}
-SCHEMA: ${schema || 'unknown'}
-
-CURRENT PROPS:
-${JSON.stringify(currentProps, null, 2)}
-
-RULES:
-- Only modify text fields (title, subtitle, description, content, name, etc.).
-- Keep structural properties unchanged (layout, columns, links, images).
-- Return the COMPLETE props object.`,
+    systemPrompt: `Rewrite text content. Keep structure (layout, columns, images) unchanged. Return COMPLETE props as JSON.
+TYPE: ${sectionType} | SCHEMA: ${schema}
+CURRENT: ${JSON.stringify(currentProps, null, 2)}`,
     userPrompt: instruction,
     maxTokens: 2048,
     json: true,
@@ -201,37 +183,11 @@ RULES:
 }
 
 export async function generateSEO(config) {
-  const sectionSummary = (config.sections || [])
-    .slice(0, 5)
-    .map(s => `${s.type}: ${JSON.stringify(s.props).substring(0, 200)}`)
-    .join('\n');
-
+  const summary = (config.sections || []).slice(0, 4).map(s => s.type).join(', ');
   return aiComplete({
-    systemPrompt: `${SYSTEM_ROLE}
-
-TASK: Generate SEO metadata for this website.
-OUTPUT FORMAT: { "title": string (max 60 chars), "description": string (max 160 chars), "keywords": string[] (5-10 keywords) }`,
-    userPrompt: `Website: ${config.metadata?.projectName || 'Website'}\nTheme: ${JSON.stringify(config.theme)}\nSections:\n${sectionSummary}`,
-    maxTokens: 512,
+    systemPrompt: `Generate SEO. Output JSON: { "title": string (60 chars max), "description": string (160 chars max), "keywords": string[] }`,
+    userPrompt: `Site: ${config.metadata?.projectName}. Sections: ${summary}`,
+    maxTokens: 256,
     json: true,
   });
-}
-
-/**
- * Clarification check: returns a question if the prompt is too vague.
- * Returns null if the prompt is clear enough to proceed.
- */
-export async function checkClarification(prompt) {
-  if (prompt.split(/\s+/).length >= 20) return null; // Long enough, proceed
-
-  const result = await aiComplete({
-    systemPrompt: `You evaluate website generation prompts. If the prompt is clear enough to build a website (has business type OR purpose), respond: { "needsClarification": false }
-If it's too vague (under 5 words, no business context, ambiguous), respond: { "needsClarification": true, "question": "one short clarifying question" }
-Output ONLY JSON.`,
-    userPrompt: prompt,
-    maxTokens: 128,
-    json: true,
-  });
-
-  return result.needsClarification ? result.question : null;
 }

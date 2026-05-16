@@ -13,7 +13,16 @@
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-size: 14px;
   }
+
+  /* Minimum font size enforcement */
+  p, span, a, li, td, th, label, input, textarea, select, button {
+    font-size: max(0.875rem, 14px);
+  }
+  h1 { font-size: max(2rem, 14px); }
+  h2 { font-size: max(1.5rem, 14px); }
+  h3 { font-size: max(1.25rem, 14px); }
 }
 
 @layer utilities {
