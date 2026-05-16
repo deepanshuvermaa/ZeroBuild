@@ -87,11 +87,15 @@ export default function BuilderChat({ projectId }: { projectId?: string }) {
         recordState(config);
         updateSection(selectedSectionId, result.props);
         aiResponse = '✓ Section updated.';
+        // Auto-save after edit
+        setTimeout(() => useBuilderStore.getState().saveToServer(), 500);
       } else {
         const result = await aiAPI.generate({ prompt: userMsg, projectId });
         recordState(config);
         setConfig(result.config);
         aiResponse = `Built ${result.config.sections.length} sections for "${result.config.metadata.projectName}".`;
+        // Auto-save after generation
+        setTimeout(() => useBuilderStore.getState().saveToServer(), 500);
       }
       setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'ai', content: aiResponse }]);
       persistMessage('ai', aiResponse);
